@@ -1,3 +1,5 @@
+import datetime
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -45,9 +47,16 @@ class CourseView(APIView):
 
             #save_course_code(code)  # Save code for future use
 
+            if datetime.datetime.now().isocalendar()[1] <= 7:
+                semester = 'VT' + datetime.datetime.now().strftime('%y')
+            else:
+                semester = 'HT' + datetime.datetime.now().strftime('%y')
+
             # Does course already exists in DB
-            if Course.objects.filter(course_code__exact=code).exists():
-                course = Course.objects.filter(course_code__iexact=code).latest(field_name='modified')
+            if Course.objects.filter(course_code__exact=code, semester__iexact=semester).exists():
+                course = Course.objects.filter(
+                    course_code__iexact=code).latest(field_name='modified')
+
                 return Response(
                     CourseSerializer(course).data,
                     headers=KODKOLLEKTIVET_HEADER,
@@ -55,13 +64,15 @@ class CourseView(APIView):
 
             else:
 
-                found_course = get_course(code)
+                course = get_course(code)
 
-                if found_course:
-                    found_course = found_course[0]
-                    course = Course.objects.filter(course_code__iexact=code).latest(field_name='modified')
+                if course:
+                    #course = Course.objects.filter(course_code__iexact=code).latest(field_name='modified')
+
+                    [Course.objects.update_or_create(course_id=i['course_id'], defaults=i) for i in course]
+
                     return Response(
-                        CourseSerializer(course).data,
+                        CourseSerializer(course[0]).data,
                         headers=KODKOLLEKTIVET_HEADER,
                         status=status.HTTP_200_OK)
 

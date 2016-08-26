@@ -18,5 +18,5 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include('unitime_api.urls', namespace='unitime_api'), name='unitime_api'),
+    url(r'^api/', include('unitime.urls', namespace='unitime_api'), name='unitime_api'),
 ]
