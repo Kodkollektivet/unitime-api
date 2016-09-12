@@ -1,10 +1,12 @@
 import datetime
+from pprint import pprint as pp
+import json
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from timeedit_lnu_api import get_course
+from timeedit_lnu_api import get_course, get_events
 
 from unitime.models import Course
 from unitime.forms import CourseForm
@@ -31,52 +33,58 @@ class CourseListView(APIView):
 
     def head(self, request):
         headers = {'Content-Length': len(Course.objects.all()), 'Provided-By': 'kodkollektivet.se'}
-        return Response(
-            headers=headers,
-            status=status.HTTP_200_OK)
+        return Response(headers=headers, status=status.HTTP_200_OK)
 
 
 class CourseView(APIView):
-
     def get(self, request, code_in):
+        return Response(get_course_data(request, code_in), headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
 
-        form = CourseForm({'course': code_in})
 
-        if form.is_valid():
-            code = form.cleaned_data['course'].upper()
-
-            #save_course_code(code)  # Save code for future use
-
-            if datetime.datetime.now().isocalendar()[1] <= 7:
-                semester = 'VT' + datetime.datetime.now().strftime('%y')
-            else:
-                semester = 'HT' + datetime.datetime.now().strftime('%y')
-
-            # Does course already exists in DB
-            if Course.objects.filter(course_code__exact=code, semester__iexact=semester).exists():
-                course = Course.objects.filter(
-                    course_code__iexact=code).latest(field_name='modified')
-
-                return Response(
-                    CourseSerializer(course).data,
-                    headers=KODKOLLEKTIVET_HEADER,
-                    status=status.HTTP_200_OK)
-
-            else:
-
-                course = get_course(code)
-
-                if course:
-                    #course = Course.objects.filter(course_code__iexact=code).latest(field_name='modified')
-
-                    [Course.objects.update_or_create(course_id=i['course_id'], defaults=i) for i in course]
-
-                    return Response(
-                        CourseSerializer(course[0]).data,
-                        headers=KODKOLLEKTIVET_HEADER,
-                        status=status.HTTP_200_OK)
-
+class EventView(APIView):
+    def get(self, request, code_in):
+        """Get request to get events."""
+        course_data = get_course_data(request, code_in)
+        if course_data:
+            events_data = get_events(course_data['course_reg'])
+            return Response(events_data, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
+        else:
             return exceptions.can_find_course(code_in)
 
+
+def get_course_data(request, code_in):
+    
+    form = CourseForm({'course': code_in})
+
+    if form.is_valid():
+        code = form.cleaned_data['course'].upper()
+
+        #save_course_code(code)  # Save code for future use
+
+        if datetime.datetime.now().isocalendar()[1] <= 7:
+            semester = 'VT' + datetime.datetime.now().strftime('%y')
         else:
-            return exceptions.invalid_search_format()
+            semester = 'HT' + datetime.datetime.now().strftime('%y')
+
+        # Does course already exists in DB
+        if Course.objects.filter(course_code__exact=code, semester__iexact=semester).exists():
+            course = Course.objects.filter(course_code__iexact=code).latest(field_name='modified')
+            return CourseSerializer(course).data
+
+        else:
+            course = get_course(code)
+
+            if course:
+                [Course.objects.update_or_create(course_id=i['course_id'], defaults=i) for i in course]
+                return CourseSerializer(course[0]).data
+
+        return exceptions.can_find_course(code_in)
+
+    else:
+        return exceptions.invalid_search_format()
+
+
+
+
+
+
