@@ -1,3 +1,4 @@
 django
 djangorestframework
+gunicorn
 git+https://github.com/jherrlin/timeedit-lnu-api@master
