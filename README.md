@@ -1,5 +1,8 @@
 # unitime
 
+[![Build Status](https://travis-ci.org/jherrlin/unitime.svg?branch=master)](https://travis-ci.org/jherrlin/unitime)
+
+
 ## Dev
 
 ```bash
