@@ -154,7 +154,7 @@ LOGGING = {
         'default': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '../logs/unitime.log',
+            'filename': BASE_DIR + '/../logs/unitime.log',
             'maxBytes': 1024 * 1024 * 5,  # 5BM
             'backupCount': 5,
             'formatter': 'standard',
@@ -162,7 +162,7 @@ LOGGING = {
         'django': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '../logs/django.log',
+            'filename': BASE_DIR + '/../logs/django.log',
             'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 5,
             'formatter': 'standard'
@@ -170,7 +170,7 @@ LOGGING = {
         'timeedit_lnu_api': {
             'level': 'DEBUG',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': '../logs/timeedit_lnu_api.log',
+            'filename': BASE_DIR + '/../logs/timeedit_lnu_api.log',
             'maxBytes': 1024 * 1024 * 5,  # 5MB
             'backupCount': 5,
             'formatter': 'verbose'
