@@ -53,7 +53,7 @@ class EventView(APIView):
 
 
 def get_course_data(request, code_in):
-    
+
     form = CourseForm({'course': code_in})
 
     if form.is_valid():
@@ -82,9 +82,3 @@ def get_course_data(request, code_in):
 
     else:
         return exceptions.invalid_search_format()
-
-
-
-
-
-
