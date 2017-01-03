@@ -20,8 +20,7 @@ from unitime import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    #url(r'^', include('unitime.urls', namespace='unitime_api'), name='unitime_api'),
-    url(r'^unitime/course/$', views.CourseListView.as_view(), name='all_courses'),
-    url(r'^unitime/course/(?P<code_in>[\w-]+)/$', views.CourseView.as_view(), name='course_by_code'),
-    url(r'^event/(?P<code_in>[\w-]+)/$', views.EventView.as_view(), name='events_by_code'),
+    url(r'^course/$', views.CourseListView.as_view(), name='all_courses'),
+    url(r'^course/(?P<code_in>[\w-]+)/$', views.CourseView.as_view(), name='course_by_code'),
+    url(r'^event/(?P<code_in>[\w-]+)/$', views.EventView.as_view(), name='events_by_code')
 ]

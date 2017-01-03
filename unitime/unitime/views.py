@@ -2,6 +2,7 @@ import datetime
 from pprint import pprint as pp
 import json
 
+from django.http import HttpResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -38,7 +39,11 @@ class CourseListView(APIView):
 
 class CourseView(APIView):
     def get(self, request, code_in):
-        return Response(get_course_data(request, code_in), headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
+        course = get_course_data(request, code_in)
+        if type(course) == HttpResponse:  # Then it's an exception
+            return course
+        else:
+            return Response(get_course_data(request, code_in), headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
 
 
 class EventView(APIView):
@@ -49,7 +54,7 @@ class EventView(APIView):
             events_data = get_events(course_data['course_reg'])
             return Response(events_data, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
         else:
-            return exceptions.can_find_course(code_in)
+            return exceptions.cant_find_course(code_in)
 
 
 def get_course_data(request, code_in):
@@ -67,7 +72,9 @@ def get_course_data(request, code_in):
             semester = 'HT' + datetime.datetime.now().strftime('%y')
 
         # Does course already exists in DB
-        if Course.objects.filter(course_code__exact=code, semester__iexact=semester).exists():
+        if Course.objects.filter(
+                course_code__exact=code,
+                semester__iexact=semester).exists():
             course = Course.objects.filter(course_code__iexact=code).latest(field_name='modified')
             return CourseSerializer(course).data
 
@@ -78,7 +85,7 @@ def get_course_data(request, code_in):
                 [Course.objects.update_or_create(course_id=i['course_id'], defaults=i) for i in course]
                 return CourseSerializer(course[0]).data
 
-        return exceptions.can_find_course(code_in)
+        return exceptions.cant_find_course(code_in)
 
     else:
         return exceptions.invalid_search_format()
