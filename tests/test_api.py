@@ -69,7 +69,6 @@ class TestApiEndpointData(APITestCase):
         response = self.client.get('/unitime/course/1DV701/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['course_code'], '1DV701')
-        self.assertEqual(response.data['course_id'], '251445')
 
     def test_course_not_found(self):
         """If we cant find course.
