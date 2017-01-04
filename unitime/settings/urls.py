@@ -22,7 +22,7 @@ from unitime import views
 
 
 urlpatterns = [
-    url(r'^admin/', admin.site.urls),
+    url(r'^unitime/admin/', admin.site.urls),
 
     url(r'^unitime/$', get_swagger_view(title='Unitime API')),
 
