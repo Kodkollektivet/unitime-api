@@ -3,6 +3,7 @@ from pprint import pprint as pp
 import json
 
 from django.http import HttpResponse
+from django.db import transaction
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -60,8 +61,9 @@ class EventView(APIView):
 def save_course_code(course_code_in):
     """This is for later on iterate over and check if course is active."""
     try:
-        CourseCode(course_code=course_code_in).save()
-    except Exception as e:
+        with transaction.atomic():
+            CourseCode.objects.create(course_code=course_code_in)
+    except:
         pass
 
 
