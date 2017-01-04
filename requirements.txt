@@ -1,4 +1,5 @@
 django
 djangorestframework
+django-rest-swagger
 gunicorn
 git+https://github.com/jherrlin/timeedit-lnu-api@master
