@@ -27,6 +27,6 @@ urlpatterns = [
     url(r'^unitime/$', get_swagger_view(title='Unitime API')),
 
     url(r'^unitime/course/$', views.CourseListView.as_view(), name='all_courses'),
-    url(r'^unitime/course/(?P<code_in>[\w-]+)/$', views.CourseView.as_view(), name='course_by_code'),
-    url(r'^unitime/event/(?P<code_in>[\w-]+)/$', views.EventView.as_view(), name='events_by_code')
+    url(r'^unitime/course/(?P<course_code>[\w-]+)/$', views.CourseView.as_view(), name='course_by_code'),
+    url(r'^unitime/event/(?P<course_code>[\w-]+)/$', views.EventView.as_view(), name='events_by_code')
 ]

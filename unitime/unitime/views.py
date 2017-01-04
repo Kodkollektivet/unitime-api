@@ -38,28 +38,28 @@ class CourseListView(APIView):
 
 
 class CourseView(APIView):
-    def get(self, request, code_in):
-        course = get_course_data(request, code_in)
+    def get(self, request, course_code):
+        course = get_course_data(request, course_code)
         if type(course) == HttpResponse:  # Then it's an exception
             return course
         else:
-            return Response(get_course_data(request, code_in), headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
+            return Response(get_course_data(request, course_code), headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
 
 
 class EventView(APIView):
-    def get(self, request, code_in):
+    def get(self, request, course_code):
         """Get request to get events."""
-        course_data = get_course_data(request, code_in)
+        course_data = get_course_data(request, course_code)
         if course_data:
             events_data = get_events(course_data['course_reg'])
             return Response(events_data, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
         else:
-            return exceptions.cant_find_course(code_in)
+            return exceptions.cant_find_course(course_code)
 
 
-def get_course_data(request, code_in):
+def get_course_data(request, course_code):
 
-    form = CourseForm({'course': code_in})
+    form = CourseForm({'course': course_code})
 
     if form.is_valid():
         code = form.cleaned_data['course'].upper()
@@ -85,7 +85,7 @@ def get_course_data(request, code_in):
                 [Course.objects.update_or_create(course_id=i['course_id'], defaults=i) for i in course]
                 return CourseSerializer(course[0]).data
 
-        return exceptions.cant_find_course(code_in)
+        return exceptions.cant_find_course(course_code)
 
     else:
         return exceptions.invalid_search_format()
