@@ -5,6 +5,8 @@
 
 [[https://travis-ci.org/jherrlin/unitime][https://travis-ci.org/jherrlin/unitime.svg?branch=master]]
 
+This project depends on: [[https://github.com/jherrlin/timeedit-lnu-api][timeedit-lnu-api]]
+
 * Endpoints
 ** =course=
 
