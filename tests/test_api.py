@@ -28,18 +28,19 @@ class TestApiViewsFunctionNames(APITestCase):
 class TestApiEndpointsReturnCode(APITestCase):
     """Test status codes on different endpoints."""
 
-    @skip("Work in progress.")
     def test_home(self):
+        """Test response to swagger home."""
         response = self.client.get('/')
         self.assertEqual(response.status_code, 200)
 
     def test_course_list(self):
+        """Test the endpoint."""
         response = self.client.get('/course/')
         self.assertEqual(response.status_code, 200)
 
 
 class TestApiEndpointData(APITestCase):
-    """Test JSON data from endpoints."""
+    """Test JSON data responses from endpoints."""
 
     def setUp(self):
         semester = ''
@@ -71,19 +72,22 @@ class TestApiEndpointData(APITestCase):
         self.assertEqual(response.data['course_id'], '251445')
 
     def test_course_not_found(self):
+        """If we cant find course.
+        Give a proper error message."""
         response = self.client.get('/course/1DV666/')
         self.assertEqual(response.status_code, 404)
         self.assertEqual(json.dumps(response.json()), json.dumps({'message': 'Can not find course 1DV666'}))
 
     def test_invalid_course_format(self):
+        """When requesting a not valid pattern for the course.
+        Return a proper error message."""
         response = self.client.get('/course/1DV666777/')
-        # import pdb
-        # pdb.set_trace()
         self.assertEqual(response.status_code, 404)
         self.assertEqual(json.dumps(response.json()), json.dumps({'message': 'Invalid search format!'}))
 
-
-    @skip("Work in progress.")
     def test_head_course_list(self):
+        """When doing a HEAD request to /course/ give the numbers
+        of courses that we have in the DB."""
         response = self.client.head('/course/')
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response._headers['content-length'][1], '1')
