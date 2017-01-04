@@ -13,15 +13,15 @@ class TestApiViewsFunctionNames(APITestCase):
     """Test urls related to their function names."""
 
     def test_all_courses(self):
-        route = resolve('/course/')
+        route = resolve('/unitime/course/')
         self.assertEqual(route.func.__name__, 'CourseListView')
 
     def test_specific_course(self):
-        route = resolve('/course/1dv702/')
+        route = resolve('/unitime/course/1dv702/')
         self.assertEqual(route.func.__name__, 'CourseView')
 
     def test_events_for_course(self):
-        route = resolve('/event/1dv702/')
+        route = resolve('/unitime/event/1dv702/')
         self.assertEqual(route.func.__name__, 'EventView')
 
 
@@ -30,12 +30,12 @@ class TestApiEndpointsReturnCode(APITestCase):
 
     def test_home(self):
         """Test response to swagger home."""
-        response = self.client.get('/')
+        response = self.client.get('/unitime/')
         self.assertEqual(response.status_code, 200)
 
     def test_course_list(self):
         """Test the endpoint."""
-        response = self.client.get('/course/')
+        response = self.client.get('/unitime/course/')
         self.assertEqual(response.status_code, 200)
 
 
@@ -66,7 +66,7 @@ class TestApiEndpointData(APITestCase):
         )
 
     def test_working_course(self):
-        response = self.client.get('/course/1DV701/')
+        response = self.client.get('/unitime/course/1DV701/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['course_code'], '1DV701')
         self.assertEqual(response.data['course_id'], '251445')
@@ -74,20 +74,20 @@ class TestApiEndpointData(APITestCase):
     def test_course_not_found(self):
         """If we cant find course.
         Give a proper error message."""
-        response = self.client.get('/course/1DV666/')
+        response = self.client.get('/unitime/course/1DV666/')
         self.assertEqual(response.status_code, 404)
         self.assertEqual(json.dumps(response.json()), json.dumps({'message': 'Can not find course 1DV666'}))
 
     def test_invalid_course_format(self):
         """When requesting a not valid pattern for the course.
         Return a proper error message."""
-        response = self.client.get('/course/1DV666777/')
+        response = self.client.get('/unitime/course/1DV666777/')
         self.assertEqual(response.status_code, 404)
         self.assertEqual(json.dumps(response.json()), json.dumps({'message': 'Invalid search format!'}))
 
     def test_head_course_list(self):
         """When doing a HEAD request to /course/ give the numbers
         of courses that we have in the DB."""
-        response = self.client.head('/course/')
+        response = self.client.head('/unitime/course/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response._headers['content-length'][1], '1')
