@@ -1,0 +1,40 @@
+#+TITLE: unitime
+#+AUTHOR: John Herrlin
+#+EMAIL: jherrlin@gmail.com
+#+DATE: <2017-01-04 Wed>
+
+[[https://travis-ci.org/jherrlin/unitime][https://travis-ci.org/jherrlin/unitime.svg?branch=master]]
+
+* Endpoints
+** =course=
+
+*** GET
+
+A GET request will return a list of all the courses
+that we have in the DB. This list can be huge!
+
+*** HEAD
+
+Will return a header where the field 'Content-Type' will
+give value of how many courses we have in the DB.
+
+** =/course/<course_code>/=
+
+*** GET
+
+Will return a specific course.
+
+** =/event/<course_code>/=
+
+*** GET
+
+Will return a list with the events related to the course code.
+
+* Dev
+
+#+BEGIN_SRC sh
+python manage.py makemigrations
+python manage.py migrate
+python manage.py createsuperuser
+python manage.py runserver
+#+END_SRC
