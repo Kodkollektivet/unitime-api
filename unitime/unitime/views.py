@@ -9,7 +9,7 @@ from rest_framework import status
 
 from timeedit_lnu_api import get_course, get_events
 
-from unitime.models import Course
+from unitime.models import Course, CourseCode
 from unitime.forms import CourseForm
 from unitime.serializers import CourseSerializer
 
@@ -57,6 +57,14 @@ class EventView(APIView):
             return exceptions.cant_find_course(course_code)
 
 
+def save_course_code(course_code_in):
+    """This is for later on iterate over and check if course is active."""
+    try:
+        CourseCode(course_code=course_code_in).save()
+    except Exception as e:
+        pass
+
+
 def get_course_data(request, course_code):
 
     form = CourseForm({'course': course_code})
@@ -64,7 +72,7 @@ def get_course_data(request, course_code):
     if form.is_valid():
         code = form.cleaned_data['course'].upper()
 
-        #save_course_code(code)  # Save code for future use
+        save_course_code(code)  # Save code for future use
 
         if datetime.datetime.now().isocalendar()[1] <= 7:
             semester = 'VT' + datetime.datetime.now().strftime('%y')

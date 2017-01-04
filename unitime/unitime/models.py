@@ -35,6 +35,12 @@ class Course(TimeStampedModel):
         return 'Course(course_code={}, course_id={}, course_reg={}'.format(self.course_code,
                                                                            self.course_id,
                                                                            self.course_reg)
-
     def __repr__(self):
         return pprint.pformat(self.__dict__, indent=4)
+
+
+class CourseCode(models.Model):
+    course_code = models.CharField(max_length=10, unique=True)
+
+    def __str__(self):
+        return '{}'.format(self.course_code)
