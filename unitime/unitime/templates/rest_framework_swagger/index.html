@@ -1,0 +1,92 @@
+{% extends "rest_framework_swagger/base.html" %}
+
+{% block header %}
+{% endblock %}
+
+{% block extra_scripts %}
+<br><br>
+<div class="swagger-ui-wrap">
+  <h2>
+    Examples:
+  </h2>
+    <pre>
+      GET: /course/
+    </pre>
+      Returns a list with all the courses thats in the DB.
+    <pre>
+      [
+        {
+          "name_en": "Computer Networks - an introduction",
+          "name_sv": "Datornät - introduktion",
+          "syllabus_sv": "http://api.kursinfo.lnu.se/GenerateDocument...",
+          "syllabus_en": "http://api.kursinfo.lnu.se/GenerateDocument...",
+          "course_code": "1DV701",
+          "course_id": "268260",
+          "course_reg": "69016",
+          "course_points": "7,5 hp",
+          "course_location": "Växjö",
+          "course_language": "Engelska",
+          "course_speed": "50%",
+          "semester": "VT17",
+          "url": "https://lnu.se/kurs/1DV701"
+        },
+      ...
+      ]
+    </pre>
+    <hr>
+    <pre>
+      HEAD: /course/
+    </pre>
+    In the response header, the Content-Length variable tells how many
+    courses are in the DB.
+    In the example below we only have one course in the DB.
+    <pre>
+      Content-Length = 1
+    </pre>
+    <hr>
+
+
+    <pre>
+      GET: /course/1DV701/
+    </pre>
+      Gives a specific course object.
+    <pre>
+        {
+          "name_en": "Computer Networks - an introduction",
+          "name_sv": "Datornät - introduktion",
+          "syllabus_sv": "http://api.kursinfo.lnu.se/GenerateDocument...",
+          "syllabus_en": "http://api.kursinfo.lnu.se/GenerateDocument...",
+          "course_code": "1DV701",
+          "course_id": "268260",
+          "course_reg": "69016",
+          "course_points": "7,5 hp",
+          "course_location": "Växjö",
+          "course_language": "Engelska",
+          "course_speed": "50%",
+          "semester": "VT17",
+          "url": "https://lnu.se/kurs/1DV701"
+        }
+    </pre>
+    <hr>
+
+    <pre>
+      GET: /event/1DV701/
+    </pre>
+    Gives the events related to a course in a list.
+    <pre>
+      [
+        {
+          "room": "D1136A_V",
+          "startdate": "2017-01-17",
+          "starttime": "15:15",
+          "endtime": "17:00",
+          "desc": "",
+          "teacher": "Morgan Ericsson, Ola Flygt",
+          "info": "Course start"
+        },
+        ...
+      ]
+    </pre>
+    <hr>
+</div>
+{% endblock %}
