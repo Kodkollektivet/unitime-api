@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from timeedit_lnu_api import get_course, get_events
+from timeedit_lnu_api import get_course, get_events, get_room
 
 from unitime.models import Course, CourseCode
 from unitime.forms import CourseForm
@@ -51,11 +51,21 @@ class EventView(APIView):
     def get(self, request, course_code):
         """Get request to get events."""
         course_data = get_course_data(request, course_code)
-        if course_data:
+        if course_data and not isinstance(course_data, HttpResponse):
             events_data = get_events(course_data['course_reg'])
             return Response(events_data, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
         else:
             return exceptions.cant_find_course(course_code)
+
+
+class RoomView(APIView):
+    """POST : {'room': 'D1136A_V'}"""
+    def post(self, request, *args, **kwargs):
+        r = get_room(request.POST['room'])
+        if len(r) == 0:
+            return exceptions.cant_find_room()  # Change to cant find room
+        else:
+            return Response(r, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
 
 
 def save_course_code(course_code_in):

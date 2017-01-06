@@ -28,5 +28,6 @@ urlpatterns = [
 
     url(r'^unitime/course/$', views.CourseListView.as_view(), name='all_courses'),
     url(r'^unitime/course/(?P<course_code>[\w-]+)/$', views.CourseView.as_view(), name='course_by_code'),
-    url(r'^unitime/event/(?P<course_code>[\w-]+)/$', views.EventView.as_view(), name='events_by_code')
+    url(r'^unitime/event/(?P<course_code>[\w-]+)/$', views.EventView.as_view(), name='events_by_code'),
+    url(r'^unitime/room/$', views.RoomView.as_view(), name='room')
 ]
