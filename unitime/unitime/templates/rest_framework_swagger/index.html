@@ -88,5 +88,40 @@
       ]
     </pre>
     <hr>
+
+    <pre>
+      POST: /room/
+    </pre>
+      Get info about a room. The most important info is Latitude and Longitude. If no info can be found about the room a JSON response with: {'message': 'Cant find room!'} is returned.
+      The endpoint is trying to find a pattern in the <ROOM> string to match a room number, so you dont need to parse the room
+      string in an event items 'room'.
+    <pre>
+      Make a request with the body: {'room': '<ROOM>'}
+
+      -------------------------------------------------------------------------------------------------
+      Example: {'room': 'D1136A_V'}
+
+      We ask for a single room and get a single room item back.
+
+      >>> req = requests.post('https://api.kodkollektivet.se/unitime/room/', data={'room': 'D1136A_V'})
+      >>> req.json()
+      [[{'lat': 56.855604, 'floor': 1, 'city': 'Växjö', 'name': 'D1136', 'lon': 14.82834}]]
+
+      -------------------------------------------------------------------------------------------------
+      Example: {'room': 'Datorsal D1142V (PC), Datorsal D1170A_V'}
+
+      This is a little bit more sloppy request but the server handles it and find the rooms and gives back 2 items.
+
+      >>> req = requests.post('https://api.kodkollektivet.se/unitime/room/', data={'room': 'Datorsal D1142V (PC), Datorsal D1170A_V'})
+      >>> req.json()
+      [
+        [{'lat': 56.855726, 'floor': 1, 'city': 'Växjö', 'name': 'D1142V', 'lon': 14.828432}],
+        [{'lat': 56.855845, 'floor': 1, 'city': 'Växjö', 'name': 'D1170', 'lon': 14.82878}]
+      ]
+
+
+    </pre>
+    <hr>
+
 </div>
 {% endblock %}
