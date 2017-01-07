@@ -48,6 +48,24 @@ class CourseView(APIView):
 
 
 class EventView(APIView):
+
+    def post(self, request, *arg, **kwargs):
+        """Can handle more that one course.
+        {'courses': ['1dv701', '1dv702']}"""
+        if 'courses' in request.POST and isinstance(request.POST.getlist('courses'), list):
+            return_events = []
+            for course in request.POST.getlist('courses'):
+                course_data = get_course_data(request, course)
+                if course_data and not isinstance(course_data, HttpResponse):
+                    events = get_events(course_data['course_reg'])
+                    return_events.append({'course': course ,'events': events})
+                else:
+                    return_events.append({'course': course ,'events': []})
+        else:
+            return exceptions.invalid_search_format()
+
+        return Response(return_events, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
+
     def get(self, request, course_code):
         """Get request to get events."""
         course_data = get_course_data(request, course_code)
