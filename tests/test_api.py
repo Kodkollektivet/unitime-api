@@ -6,7 +6,7 @@ from unittest import skip
 from django.core.urlresolvers import resolve
 from rest_framework.test import APITestCase
 
-from unitime.models import Course
+from unitime.models import Course, CourseCode
 
 
 class TestApiViewsFunctionNames(APITestCase):
@@ -27,6 +27,10 @@ class TestApiViewsFunctionNames(APITestCase):
     def test_events_for_multi_courses_POST(self):
         route = resolve('/unitime/event/')
         self.assertEqual(route.func.__name__, 'EventView')
+
+    def test_course_codes_GET(self):
+        route = resolve('/unitime/codes/')
+        self.assertEqual(route.func.__name__, 'CourseCodeView')
 
 
 class TestApiEndpointsReturnCode(APITestCase):
@@ -69,9 +73,6 @@ class TestApiEventViewPost(APITestCase):
         for d in response.data:
             self.assertTrue('course' in d)
             self.assertTrue('events' in d)
-
-
-
 
 
 class TestApiEndpointData(APITestCase):
@@ -125,3 +126,18 @@ class TestApiEndpointData(APITestCase):
         response = self.client.head('/unitime/course/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response._headers['content-length'][1], '1')
+
+
+class TestApiEndpointCourseCode(APITestCase):
+    """Test JSON data responses from endpoints."""
+
+    def setUp(self):
+        [CourseCode.objects.create(course_code=i) for i in ['1DV701', '1DV702']]
+
+    def test_course_codes_list(self):
+        response = self.client.get('/unitime/codes/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(isinstance(response.data['course_codes'], list))
+        self.assertTrue(isinstance(response.data, dict))
+        self.assertEqual(len(response.data['course_codes']), 2)
+        self.assertTrue('1DV702' in response.data['course_codes'])

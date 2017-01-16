@@ -12,7 +12,7 @@ from timeedit_lnu_api import get_course, get_events, get_room
 
 from unitime.models import Course, CourseCode
 from unitime.forms import CourseForm
-from unitime.serializers import CourseSerializer
+from unitime.serializers import CourseSerializer, CourseCodeSerializer
 
 from unitime import exceptions
 
@@ -44,7 +44,7 @@ class CourseView(APIView):
         if type(course) == HttpResponse:  # Then it's an exception
             return course
         else:
-            return Response(get_course_data(request, course_code), headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
+            return Response(course, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
 
 
 class EventView(APIView):
@@ -84,6 +84,17 @@ class RoomView(APIView):
             return exceptions.cant_find_room()  # Change to cant find room
         else:
             return Response(r, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
+
+
+class CourseCodeView(APIView):
+    def get(self, request, *args, **kwargs):
+        course_codes = CourseCode.objects.all()
+        serializer = CourseCodeSerializer(course_codes, many=True)
+        # import pdb
+        # pdb.set_trace()
+        return Response({'course_codes': [i['course_code'] for i in serializer.data]},
+                        headers=KODKOLLEKTIVET_HEADER,
+                        status=status.HTTP_200_OK)
 
 
 def save_course_code(course_code_in):
