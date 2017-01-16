@@ -3,3 +3,7 @@ djangorestframework
 django-rest-swagger
 gunicorn
 git+https://github.com/jherrlin/timeedit-lnu-api@master
+jedi
+flake8
+importmagic
+autopep8
