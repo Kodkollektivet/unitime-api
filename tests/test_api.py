@@ -141,3 +141,38 @@ class TestApiEndpointCourseCode(APITestCase):
         self.assertTrue(isinstance(response.data, dict))
         self.assertEqual(len(response.data['course_codes']), 2)
         self.assertTrue('1DV702' in response.data['course_codes'])
+
+
+class TestApiEndpointRoom(APITestCase):
+    """Test JSON data responses from endpoints."""
+
+    def test_single_room(self):
+        """The room string as a little hidden."""
+        response = self.client.post('/unitime/room/', data={'room': 'Datorsal D1142V'})
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.status_code, 200)
+
+    def test_multi_rooms_string(self):
+        response = self.client.post('/unitime/room/',
+                                    data={'room': 'Datorsal D1142V (PC), Datorsal D1170A_V'})
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(isinstance(response.data[0], dict))
+        room = response.data[0]
+        self.assertTrue('name' in room)
+        self.assertTrue('floor' in room)
+        self.assertTrue('lat' in room)
+        self.assertTrue('lon' in room)
+        self.assertTrue('city' in room)
+
+    def test_multi_rooms(self):
+        for i in ['Dacke', 'IKEA', 'Myrdal', 'Södrasalen']:
+            response = self.client.post('/unitime/room/', data={'room': i})
+            self.assertEqual(response.status_code, 200)
+            self.assertTrue(isinstance(response.data[0], dict))
+            room = response.data[0]
+            self.assertTrue('name' in room)
+            self.assertTrue('floor' in room)
+            self.assertTrue('lat' in room)
+            self.assertTrue('lon' in room)
+            self.assertTrue('city' in room)
