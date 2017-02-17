@@ -3,14 +3,13 @@
 #+EMAIL: jherrlin@gmail.com
 #+DATE: <2017-01-04 Wed>
 
-[[https://travis-ci.org/jherrlin/unitime][https://travis-ci.org/jherrlin/unitime.svg?branch=master]]
+[[https://travis-ci.org/Kodkollektivet/unitime-api][https://travis-ci.org/Kodkollektivet/unitime-api.svg?branch=master]]
 
 This project depends on: [[https://github.com/jherrlin/timeedit-lnu-api][timeedit-lnu-api]]
 
 * Endpoints
 
 In the examples below I am using python and a third-party lib called [[http://docs.python-requests.org/en/master/][requests]].
-
 
 ** Course
 
@@ -206,9 +205,9 @@ In the examples below I am using python and a third-party lib called [[http://do
 
 * Setup development environment
 
-#+BEGIN_SRC sh
-python manage.py makemigrations
-python manage.py migrate
-python manage.py createsuperuser
-python manage.py runserver
-#+END_SRC
+  #+BEGIN_SRC sh
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py createsuperuser
+    python manage.py runserver
+  #+END_SRC
