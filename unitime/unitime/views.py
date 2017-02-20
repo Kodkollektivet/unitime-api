@@ -58,9 +58,9 @@ class EventView(APIView):
                 course_data = get_course_data(request, course)
                 if course_data and not isinstance(course_data, HttpResponse):
                     events = get_events(course_data['course_reg'])
-                    return_events.append({'course': course ,'events': events})
+                    return_events.append({'course': course, 'events': events})
                 else:
-                    return_events.append({'course': course ,'events': []})
+                    return_events.append({'course': course, 'events': []})
         else:
             return exceptions.invalid_search_format()
 
@@ -74,6 +74,26 @@ class EventView(APIView):
             return Response(events_data, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
         else:
             return exceptions.cant_find_course(course_code)
+
+
+class AlamonEventView(APIView):
+
+    def post(self, request, *arg, **kwargs):
+        """Can handle more that one course.
+        {'courses': '1dv701,1dv702'}"""
+        if 'courses' in request.POST:
+            return_events = []
+            for course in request.POST.get('courses').split(','):
+                course_data = get_course_data(request, course)
+                if course_data and not isinstance(course_data, HttpResponse):
+                    events = get_events(course_data['course_reg'])
+                    return_events.append({'course': course, 'events': events})
+                else:
+                    return_events.append({'course': course, 'events': []})
+        else:
+            return exceptions.invalid_search_format()
+
+        return Response(return_events, headers=KODKOLLEKTIVET_HEADER, status=status.HTTP_200_OK)
 
 
 class RoomView(APIView):
