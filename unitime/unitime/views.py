@@ -79,11 +79,11 @@ class EventView(APIView):
 class AlamonEventView(APIView):
 
     def post(self, request, *arg, **kwargs):
-        """Can handle more that one course.
+        """Alamonfire framework only! Can handle more that one course.
         {'courses': '1dv701,1dv702'}"""
         if 'courses' in request.POST:
             return_events = []
-            for course in request.POST.get('courses').split(','):
+            for course in [c.replace(' ', '') for c in request.POST.get('courses').split(',')]:
                 course_data = get_course_data(request, course)
                 if course_data and not isinstance(course_data, HttpResponse):
                     events = get_events(course_data['course_reg'])

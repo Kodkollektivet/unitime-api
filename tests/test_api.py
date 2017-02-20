@@ -1,7 +1,5 @@
 import json
 import datetime
-from pprint import pprint as pp
-from unittest import skip
 
 from django.core.urlresolvers import resolve
 from rest_framework.test import APITestCase
@@ -64,6 +62,39 @@ class TestApiEventViewPost(APITestCase):
 
     def test_events_with_3_course_one_has_no_events(self):
         response = self.client.post('/unitime/event/', data={'courses': ['1dv701', 'satan', '1dv702']})
+        self.assertEqual(len(response.data), 3)
+        data = list(filter(lambda x: x['course'] == 'satan', response.data))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('course' in data[0])
+        self.assertTrue('events' in data[0])
+        self.assertEqual(len(data[0]['events']), 0)
+        for d in response.data:
+            self.assertTrue('course' in d)
+            self.assertTrue('events' in d)
+
+
+class TestAlamonApiEventViewPost(APITestCase):
+    """Special endpoint for the iOS framework, Alamonfire."""
+
+    def test_alamon_events_with_multi_course(self):
+        """Special endpoint for the iOS framework, Alamonfire."""
+        response = self.client.post('/unitime/alamon/event/', data={'courses': '1dv701, 1dv702'})
+        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.status_code, 200)
+
+    def test_alamon_events_with_2_course_one_has_no_events(self):
+        """Special endpoint for the iOS framework, Alamonfire."""
+        response = self.client.post('/unitime/alamon/event/', data={'courses': '1dv701, satan'})
+        self.assertEqual(len(response.data), 2)
+        data = list(filter(lambda x: x['course'] == 'satan', response.data))
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue('course' in data[0])
+        self.assertTrue('events' in data[0])
+        self.assertEqual(len(data[0]['events']), 0)
+
+    def test_alamon_events_with_3_course_one_has_no_events(self):
+        """Special endpoint for the iOS framework, Alamonfire."""
+        response = self.client.post('/unitime/alamon/event/', data={'courses': '1dv701, satan,1dv702'})
         self.assertEqual(len(response.data), 3)
         data = list(filter(lambda x: x['course'] == 'satan', response.data))
         self.assertEqual(response.status_code, 200)
