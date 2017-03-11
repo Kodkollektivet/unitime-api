@@ -1,11 +1,10 @@
-#+TITLE: Unitime
 #+AUTHOR: Kodkollektivet
 #+EMAIL: jherrlin@gmail.com
-#+DATE: <2017-03-10 Fri>
+#+DATE: <2016-12-30 Fri>
 #+STARTUP: content
 
 
-* New setup
+* Unitime server
   :PROPERTIES:
   :dir:      /ssh:unitime|sudo:unitime:~/
   :results:  output
@@ -13,17 +12,22 @@
   :date:     <2017-03-09 Thu>
   :END:
 
-  This setup is based on Debian 8, Gunicorn, Django and Nginx.
-  To get this Orgmode document to work.
-  You need to fix =~/.ssh/config= file with a service called =unitime=.
+  The setup is based on Debian 8, Gunicorn, Django, Systemd and Nginx.
+
+  The document is written in a way that you could follow from the top to the bottom and
+  copy and paste the commands.
+
+  But the most efficient way is to use Emacs Orgmode. All of the =sh= code blocks can be
+  used executed remotely with =Babel= and all the =text= blocks can be put on the remote
+  server using =tangle=.
 
 ** Setup environment
-*** Generate new SSH keys
+*** Prepair client
 
     Create a new pair of rsa keys.
 
     #+BEGIN_SRC sh :dir . :export code
-      ssh-keygen -t rsa -C "jherrlin@unitime" -b 4096 -N '' -f ~/.ssh/services/unitime
+      ssh-keygen -t rsa -C "email@unitime" -b 4096 -N '' -f ~/.ssh/services/unitime
     #+END_SRC
 
     Dubbel check that they are there.
@@ -80,7 +84,6 @@
        systemctl status ntp
      #+END_SRC
 
-
      List available timezone and search for Stockholm.
 
      #+BEGIN_SRC sh
@@ -100,7 +103,6 @@
        date
      #+END_SRC
 
-
 **** Nginx
 
     Install Nginx
@@ -113,6 +115,8 @@
     #+END_SRC
 
     Prepair an endpoint for the certificates that will be installed in the [[letsencryt]].
+
+    Located: /etc/nginx/sites-available/default
 
     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/nginx/sites-available/default
       ##
@@ -210,7 +214,6 @@
       systemctl status nginx
     #+END_SRC
 
-
 **** Python related
 
      #+BEGIN_SRC sh
@@ -256,6 +259,8 @@
 
     Append the following to =/etc/letsencrypt/cli.ini=.
     [[http://letsencrypt.readthedocs.io/en/latest/using.html#id20][source]]
+
+    Located: /etc/letsencrypt/cli.ini
 
     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/letsencrypt/cli.ini
       # This is an example of the kind of things you can do in a configuration file.
@@ -317,7 +322,7 @@
       ls -l /etc/ssl/certs/ | grep dhparam.pem
     #+END_SRC
 
-    /etc/nginx/snippets/ssl-unitime.se.conf
+    Located: /etc/nginx/snippets/ssl-unitime.se.conf
 
     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/nginx/snippets/ssl-unitime.se.conf
       ssl_certificate /etc/letsencrypt/live/unitime.se/fullchain.pem;
@@ -330,8 +335,7 @@
       cat /etc/nginx/snippets/ssl-unitime.se.conf
     #+END_SRC
 
-    https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
-    https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+    Located: /etc/nginx/snippets/ssl-params.conf
 
     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/nginx/snippets/ssl-params.conf
       # from https://cipherli.st/
@@ -372,6 +376,8 @@
     #+END_SRC
 
     Nginx config for unitime.se
+
+    Located: /etc/nginx/sites-available/unitime
 
     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/nginx/sites-available/unitime
       server {
@@ -446,7 +452,6 @@
        yes | apt-get install git
      #+END_SRC
 
-
 **** Root's bin
 
      Create a *bin/* folder for the =root= user.
@@ -456,7 +461,7 @@
      #+END_SRC
 
 
-*** Add webapp user
+*** Webapp user
 
     Create a *webapp* user.
 
@@ -475,14 +480,13 @@
     #+END_SRC
 
 
-*** SSHd settings
+*** SSH settings
 
-    Update =sshd_config= to secure the server
+    Update =sshd_config= to secure the server. Dont allow password authentication.
 
     #+BEGIN_SRC sh
       sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
     #+END_SRC
-
 
     Restard sshd
 
@@ -491,85 +495,93 @@
     #+END_SRC
 
 
-*** Initialize Unitime app
+*** Unitime django app
+**** Initialize
 
-    Write the script to =/root/bin/initialize_unitime_app.sh=.
+     TODO: Create a production.py file.
+           Find a good way to handle the SECRET_KEY
 
-    #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/root/bin/initialize_unitime_app.sh
-      mkdir -p /webapps/unitime && cd $_
-      git clone https://github.com/Kodkollektivet/unitime-api.git .
-      virtualenv venv
-      source venv/bin/activate
-      pip install -r requirements.txt
-      cd unitime
-      mkdir -p /webapps/unitime/logs
-      sed -i 's/DEBUG = True/DEBUG = False/' /webapps/unitime/unitime/settings/settings.py
-      python manage.py makemigrations
-      python manage.py migrate
-      python manage.py collectstatic --noinput
-      cd /webapps
-      chown -R webapp:webapp unitime
-    #+END_SRC
+     Located: /root/bin/initialize_unitime_app.sh
 
-    Execute the script
+     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/root/bin/initialize_unitime_app.sh
+       mkdir -p /webapps/unitime && cd $_
+       git clone https://github.com/Kodkollektivet/unitime-api.git .
+       virtualenv venv
+       source venv/bin/activate
+       pip install -r requirements.txt
+       cd unitime
+       mkdir -p /webapps/unitime/logs
+       sed -i 's/DEBUG = True/DEBUG = False/' /webapps/unitime/unitime/settings/settings.py
+       python manage.py makemigrations
+       python manage.py migrate
+       python manage.py collectstatic --noinput
+       cd /webapps
+       chown -R webapp:webapp unitime
+     #+END_SRC
 
-    #+BEGIN_SRC sh
-      bash /root/bin/initialize_unitime_app.sh
-    #+END_SRC
+     Execute the script
 
-
-*** Create a systemd file
-
-    First test out the the application is working manually!
-
-    #+BEGIN_SRC sh
-      cd /webapps/unitime/unitime
-      /webapps/unitime/venv/bin/gunicorn  --bind 0.0.0.0:8000 settings.wsgi:application
-    #+END_SRC
-
-    If everything working as expected, create a service for it.
-
-    Create the =/etc/systemd/system/unitime.service= file and append the following.
-
-    #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/unitime.service
-      [Unit]
-      Description=Unitime daemon
-      After=network.target
-
-      [Service]
-      User=webapp
-      Group=webapp
-      WorkingDirectory=/webapps/unitime/unitime
-      ExecStart=/webapps/unitime/venv/bin/gunicorn --workers 10 --bind unix:/webapps/unitime/unitime.sock settings.wsgi:application
-
-      [Install]
-      WantedBy=multi-user.target
-    #+END_SRC
-
-    Make sure that its there
-
-    #+BEGIN_SRC sh
-      cat /etc/systemd/system/unitime.service
-    #+END_SRC
-
-    Enable and start the service
-
-    #+BEGIN_SRC sh
-      sudo systemctl daemon-reload
-      sudo systemctl start unitime
-      sudo systemctl enable unitime
-      sudo systemctl restart nginx
-      sudo systemctl status unitime
-    #+END_SRC
+     #+BEGIN_SRC sh
+       bash /root/bin/initialize_unitime_app.sh
+     #+END_SRC
 
 
-*** Initialize the scrapper app
-**** Set up the scripts
+**** Systemd
+***** Service
+
+      Located: /etc/systemd/system/unitime.service
+
+      #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/unitime.service
+        [Unit]
+        Description=Unitime daemon
+        After=network.target
+
+        [Service]
+        User=webapp
+        Group=webapp
+        WorkingDirectory=/webapps/unitime/unitime
+        ExecStart=/webapps/unitime/venv/bin/gunicorn --workers 10 --bind unix:/webapps/unitime/unitime.sock settings.wsgi:application
+
+        [Install]
+        WantedBy=multi-user.target
+      #+END_SRC
+
+
+***** Enable and start
+
+      Enable and start the service
+
+      #+BEGIN_SRC sh
+        sudo systemctl daemon-reload
+        sudo systemctl start unitime
+        sudo systemctl enable unitime
+        sudo systemctl restart nginx
+        sudo systemctl status unitime
+      #+END_SRC
+
+
+***** Useful
+
+      Manually test if the application is working.
+
+      #+BEGIN_SRC sh
+        cd /webapps/unitime/unitime
+        /webapps/unitime/venv/bin/gunicorn  --bind 0.0.0.0:8000 settings.wsgi:application
+      #+END_SRC
+
+
+*** Scrapper
+
+    The scrapper is an application that is scrapping different resoueces to look for
+    course codes. Those codes are then pushed through the Rest API and the API application
+    will look for them. The source code can be found on GitHub [[https://github.com/jherrlin/unitime-code-scrapper][here]].
+
+**** Initialize
 
      Create a script for downloading and prepair the environment for the unitime-scrapper.
      This app will live in =/webapps/unitime-scrapper/=.
 
-     The scrapper can be found on GitHub, [[https://github.com/jherrlin/unitime-code-scrapper][here]].
+     Located: /root/bin/initialize_scrapper_app.sh
 
      #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/root/bin/initialize_scrapper_app.sh
        # This script will install and prepair the environment for
@@ -588,11 +600,15 @@
        bash /root/bin/initialize_scrapper_app.sh
      #+END_SRC
 
-     Create a scrapper script.
-     This is the script that the [[scrapperservice]] will execute.
-     There is a [[scrappersertimer]] that will be run on a schedule.
+
+**** Script
+
+     Create a scrapper script. This is the script that the [[scrapperservice][scrapper service]] will execute.
+     There is a [[scrappertimer][scrapper timer]] that will be run on a schedule.
 
      TODO: Dubbel check the code sorter.
+
+     Located: /root/bin/scrapper_runner.sh
 
      #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/root/bin/scrapper_runner.sh
        cd /webapps/unitime-scrapper
@@ -605,71 +621,198 @@
      #+END_SRC
 
 
-**** Create systemd timers
+**** Systemd
+***** Service
+      <<scrapperservice>>
 
-     /etc/systemd/system/scrapper.service
-     <<scrapperservice>>
+      Located: /etc/systemd/system/scrapper.service
 
-     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/scrapper.service
-       [Unit]
-       Description=Unitime scrapper service
+      #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/scrapper.service
+        [Unit]
+        Description=Unitime scrapper service
 
-       [Service]
-       Nice=19
-       IOSchedulingClass=3
-       ExecStart=/bin/bash /root/bin/scrapper_runner.sh
+        [Service]
+        Nice=19
+        IOSchedulingClass=3
+        ExecStart=/bin/bash /root/bin/scrapper_runner.sh
+      #+END_SRC
+
+
+***** Timer
+      <<scrappertimer>>
+
+      Located: /etc/systemd/system/scrapper.timer
+
+      #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/scrapper.timer
+        [Unit]
+        Description=Weekly unitime scrapper timer
+
+        [Timer]
+        OnCalendar=Sun *-*-* 00:15:00
+        Persistent=true
+        Unit=scrapper.service
+
+        [Install]
+        WantedBy=timers.target
+      #+END_SRC
+
+***** Enable and start
+
+      Reload, enable and list timers
+
+      #+BEGIN_SRC sh
+        systemctl daemon-reload
+        systemctl enable scrapper.{timer,service}
+        systemctl list-timers --all
+        systemctl status scrapper.{timer,service}
+      #+END_SRC
+
+
+***** Useful
+
+      Follow the logs.
+
+      #+BEGIN_SRC sh
+        journalctl -f -u scrapper.service
+      #+END_SRC
+
+      To start the service manually, follow the logs then.
+
+      #+BEGIN_SRC sh
+        systemctl start scrapper.service
+      #+END_SRC
+
+
+*** Firewall
+
+    For firewall I am using the Netfilter kernel module.
+    This is accessed with =iptables=.
+
+**** Resources
+
+     - https://www.digitalocean.com/community/tutorials/how-to-set-up-a-basic-iptables-firewall-on-centos-6
+     - https://www.digitalocean.com/community/tutorials/how-to-use-psad-to-detect-network-intrusion-attempts-on-an-ubuntu-vps
+     - https://www.upcloud.com/support/configuring-iptables-on-debian-8-0/
+     - https://www.digitalocean.com/community/tutorials/how-to-secure-nginx-with-let-s-encrypt-on-debian-8
+     - https://github.com/jherrlin/LNU-1DV720-Server-Administration/blob/master/iptables_example.sh
+
+**** Script
+
+     Iptables rules.
+
+     Located in: /root/bin/start_iptables_script.sh
+
+     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/root/bin/start_iptables_script.sh
+       # Iptables script to secure the server.
+       # This scipt is loaded at boot.
+       echo "Starting the script..."
+       iptables -A INPUT -i lo -j ACCEPT
+       iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+       iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+       iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+       iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+       iptables -A INPUT -p icmp --icmp-type echo-request -j ACCEPT
+       iptables -A INPUT -j DROP
+       iptables -A FORWARD -j DROP
+       echo "Script done!"
      #+END_SRC
 
-     /etc/systemd/system/scrapper.timer
-     <<scrappersertimer>>
+**** Systemd
 
-     #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/scrapper.timer
-       [Unit]
-       Description=Weekly unitime scrapper timer
+     A timer is used to run the =iptables_script.sh= script on every boot. The timer is
+     connected to a service that will handle the execution of the script. The timer is set
+     to run 2 min after boot. In my opinion this is good in somethings wrong with the
+     rules and you happen to write rules that locks you out of the system.
 
-       [Timer]
-       OnCalendar=Sun *-*-* 00:15:00
-       Persistent=true
-       Unit=scrapper.service
+***** Service
 
-       [Install]
-       WantedBy=timers.target
-     #+END_SRC
+      Located: /etc/systemd/system/start_iptables.service
 
-     Reload, enable and list timers
+      #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/start_iptables.service
+        [Unit]
+        Description=Iptables service
+
+        [Service]
+        Nice=19
+        IOSchedulingClass=3
+        ExecStart=/bin/bash /root/bin/start_iptables_script.sh
+      #+END_SRC
+
+***** Timer
+
+      https://www.freedesktop.org/software/systemd/man/systemd.timer.html
+
+      Located: /etc/systemd/system/start_iptables.timer
+
+      #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/etc/systemd/system/start_iptables.timer
+        [Unit]
+        Description=Run 2 min after boot
+        Unit=start_iptables.service
+
+        [Timer]
+        OnBootSec=2min
+
+        [Install]
+        WantedBy=timers.target
+      #+END_SRC
+
+***** Enable and start
+
+      Reload timer's and enable the =start_iptables=
+
+      #+BEGIN_SRC sh
+        systemctl daemon-reload
+        systemctl enable start_iptables.{timer,service}
+        systemctl list-timers --all
+      #+END_SRC
+
+
+***** Useful
+
+      If restarting the server.
+      Look when the script load's the rules
+
+      #+BEGIN_SRC sh
+        watch -n 1 iptables -L
+      #+END_SRC
+
+      Look at the logs
+
+      #+BEGIN_SRC sh
+        journalctl -f -u start_iptables.service
+      #+END_SRC
+
+**** Useful
+
+     List rules
 
      #+BEGIN_SRC sh
-       systemctl daemon-reload
-       systemctl enable scrapper.service
-       systemctl enable scrapper.timer
-       systemctl list-timers --all
-       systemctl status scrapper.{timer,service}
+       iptables -v -t filter -L --line-numbers
      #+END_SRC
 
-     Follow the logs.
+     Flush (delete) rules
 
      #+BEGIN_SRC sh
-       journalctl -f -u scrapper.service
+       iptables -F
      #+END_SRC
 
-     To start the service manually, follow the logs then.
-
-     #+BEGIN_SRC sh
-       systemctl start scrapper.service
-     #+END_SRC
 
 *** Postgres
 
     TODO
 
-*** Firewall
+*** Resources
 
-    TODO
+    - [[https://www.freedesktop.org/software/systemd/man/systemd.service.html][Systemd service]] :: Systemd services docs
+    - [[https://www.digitalocean.com/community/tutorials/how-to-configure-a-linux-service-to-start-automatically-after-a-crash-or-reboot-part-1-practical-examples][How To Configure a Linux Service to Start Automatically After a Crash or Reboot]] :: Systemd service restart on failure
+
 
 ** Update Unitime Django app
 
    Updates the Django project. Set the right permissions
    and restart the services.
+
+   Located: /root/bin/update_unitime_app.sh
 
    #+BEGIN_SRC text :tangle /ssh:unitime|sudo:unitime:/root/bin/update_unitime_app.sh
      cd /webapps/unitime
@@ -697,3 +840,16 @@
    #+BEGIN_SRC sh
      bash /root/bin/update_unitime_app.sh
    #+END_SRC
+
+
+** System maintenance
+
+   TODO: Set up actions to handle updates and fixes so the system will be as well
+   maintained with as little effort as possible.
+
+
+** TODOs
+
+   - New DRS version: https://github.com/tomchristie/django-rest-framework/tree/master
+   - Read about HSTS: https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security
+   - Read: https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html
