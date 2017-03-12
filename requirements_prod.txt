@@ -1,0 +1,13 @@
+django
+djangorestframework
+markdown
+django-filter
+coreapi
+pygments
+gunicorn
+git+https://github.com/jherrlin/timeedit-lnu-api@master
+jedi
+flake8
+importmagic
+autopep8
+psycopg2

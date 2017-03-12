@@ -211,7 +211,7 @@ In the examples below I am using python and a third-party lib called [[http://do
 
   #+BEGIN_SRC sh
     mkdir logs
-    pip install -r requirements.txt
+    pip install -r requirements_dev.txt
     cd unitime
     python manage.py makemigrations
     python manage.py migrate
