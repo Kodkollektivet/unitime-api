@@ -205,9 +205,22 @@ In the examples below I am using python and a third-party lib called [[http://do
 
 * Setup development environment
 
+  Navigate into the project base dir and run the following commands. After running
+  =runserver= you can access the api at http://127.0.0.1:8000/api/.
+  Docs are located at http://127.0.0.1:8000/docs/.
+
   #+BEGIN_SRC sh
+    mkdir logs
+    pip install -r requirements.txt
+    cd unitime
     python manage.py makemigrations
     python manage.py migrate
     python manage.py createsuperuser
     python manage.py runserver
+  #+END_SRC
+
+  Run tests. The database needs to be in place before the tests can run.
+
+  #+BEGIN_SRC sh
+    python unitime/manage.py test
   #+END_SRC
