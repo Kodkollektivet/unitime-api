@@ -1,6 +1,9 @@
 django
 djangorestframework
-django-rest-swagger
+markdown
+django-filter
+coreapi
+pygments
 gunicorn
 git+https://github.com/jherrlin/timeedit-lnu-api@master
 jedi
