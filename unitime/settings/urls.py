@@ -15,22 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework.documentation import include_docs_urls
 
-from rest_framework_swagger.views import get_swagger_view
 
-from unitime import views
+API_TITLE = 'Unitime'
+API_DESCRIPTION = 'JSON Rest API for the Unitime service.'
 
 
 urlpatterns = [
     url(r'^unitime/admin/', admin.site.urls),
-
-    url(r'^unitime/$', get_swagger_view(title='Unitime API')),
-
-    url(r'^unitime/course/$', views.CourseListView.as_view(), name='all_courses'),
-    url(r'^unitime/course/(?P<course_code>[\w-]+)/$', views.CourseView.as_view(), name='course_by_code'),
-    url(r'^unitime/event/$', views.EventView.as_view(), name='events_by_code'),
-    url(r'^unitime/alamon/event/$', views.AlamonEventView.as_view(), name='alamon_events_by_code'),
-    url(r'^unitime/event/(?P<course_code>[\w-]+)/$', views.EventView.as_view(), name='events_by_code'),
-    url(r'^unitime/room/$', views.RoomView.as_view(), name='room'),
-    url(r'^unitime/codes/$', views.CourseCodeView.as_view(), name='codes'),
+    url(r'^api/', include('unitime.urls'), name='api'),
+    url(r'^docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)),
 ]
