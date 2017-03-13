@@ -17,3 +17,11 @@ script:
 branches:
   only:
     - master
+
+notifications:
+  webhooks:
+    urls:
+      - https://ci.unitime.se/fduexoxsuxhzjskjgqly/
+    on_success: always
+    on_failure: never
+    on_start: never
