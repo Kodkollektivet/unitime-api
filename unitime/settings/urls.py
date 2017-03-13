@@ -23,7 +23,7 @@ API_DESCRIPTION = 'JSON Rest API for the Unitime service.'
 
 
 urlpatterns = [
-    url(r'^unitime/admin/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^api/', include('unitime.urls'), name='api'),
     url(r'^docs/', include_docs_urls(title=API_TITLE, description=API_DESCRIPTION)),
 ]
