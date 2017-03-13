@@ -44,6 +44,11 @@ class TestApiEndpointsReturnCode(APITestCase):
         response = self.client.get('/api/course/')
         self.assertEqual(response.status_code, 200)
 
+    def test_admin_url(self):
+        """Test admin url."""
+        response = self.client.get('/admin/')
+        self.assertEqual(response.status_code, 302)  # Redirects
+
 
 class TestApiEventViewPost(APITestCase):
     def test_events_with_multi_course(self):
