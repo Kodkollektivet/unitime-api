@@ -7,19 +7,24 @@
 
 This project depends on: [[https://github.com/jherrlin/timeedit-lnu-api][timeedit-lnu-api]]
 
+* Documentation
+
+  There Alamon API service is implemented but maybe not very good, you can find it here:
+  https://api.kodkollektivet.se/docs/
+
 * Endpoints
 
 In the examples below I am using python and a third-party lib called [[http://docs.python-requests.org/en/master/][requests]].
 
 ** Course
 
-   To get all of the courses we make a *GET* request to *https://api.kodkollektivet.se/unitime/course/*.
+   To get all of the courses we make a *GET* request to *https://api.kodkollektivet.se/api/course/*.
    This will give us a huge list with information about the courses.
 
    #+BEGIN_SRC python
      >>> import requests
      >>> from pprint import pprint as pp
-     >>> req = requests.get('https://api.kodkollektivet.se/unitime/course/')
+     >>> req = requests.get('https://api.kodkollektivet.se/api/course/')
      >>> pp(req.json())
      [{'course_code': '0LA011',
        'course_id': '276323',
@@ -51,13 +56,13 @@ In the examples below I am using python and a third-party lib called [[http://do
    #+END_SRC
 
    Get a single course object.
-   We use a *GET* request to *https://api.kodkollektivet.se/unitime/course/<COURSE CODE>/*
+   We use a *GET* request to *https://api.kodkollektivet.se/api/course/<COURSE CODE>/*
    In the response we get a single course object.
 
    #+BEGIN_SRC python
      >>> import requests
      >>> from pprint import pprint as pp
-     >>> req = requests.get('https://api.kodkollektivet.se/unitime/course/1dv701/')
+     >>> req = requests.get('https://api.kodkollektivet.se/api/course/1dv701/')
      >>> pp(req.json())
      {'course_code': '1DV701',
       'course_id': '268260',
@@ -75,12 +80,12 @@ In the examples below I am using python and a third-party lib called [[http://do
    #+END_SRC
 
    To know the amount of courses that we have in the database we can do
-   a *HEAD* request to *https://api.kodkollektivet.se/unitime/course/*.
+   a *HEAD* request to *https://api.kodkollektivet.se/api/course/*.
    In the header we the get the amount in *Content-Length*.
 
    #+BEGIN_SRC python
      >>> import requests
-     >>> req = requests.head('https://api.kodkollektivet.se/unitime/course/')
+     >>> req = requests.head('https://api.kodkollektivet.se/api/course/')
      >>> req.headers['Content-Length']
      '2020'
    #+END_SRC
@@ -88,13 +93,13 @@ In the examples below I am using python and a third-party lib called [[http://do
 ** Events/Schedule
 
    Get a list of events/schedule for a course.
-   We use a *GET* request to *https://api.kodkollektivet.se/unitime/event/<COURSE CODE>/*
+   We use a *GET* request to *https://api.kodkollektivet.se/api/event/<COURSE CODE>/*
    In the response we get a list of event objects.
 
    #+BEGIN_SRC python
      >>> import requests
      >>> from pprint import pprint as pp
-     >>> req = requests.get('https://api.kodkollektivet.se/unitime/event/1dv701/')
+     >>> req = requests.get('https://api.kodkollektivet.se/api/event/1dv701/')
      >>> pp(req.json())
      [{'desc': '',
        'endtime': '17:00',
@@ -126,7 +131,7 @@ In the examples below I am using python and a third-party lib called [[http://do
    #+BEGIN_SRC python
      >>> import requests
      >>> from pprint import pprint as pp
-     >>> req = requests.post('https://api.kodkollektivet.se/unitime/event/', data={'courses': ['1dv507', '1dv702']})
+     >>> req = requests.post('https://api.kodkollektivet.se/api/event/', data={'courses': ['1dv507', '1dv702']})
      >>> pp(req.json())
      [{'course': '1dv507',
        'events': [{'desc': '',
@@ -166,7 +171,7 @@ In the examples below I am using python and a third-party lib called [[http://do
    The rooms can look strange, like *Datorsal D1142V (PC), Datorsal D1170A_V* and
    *D1167V*. We can send that string directly to the API and it will sort it
    out.
-   We need to do a *POST* request to *https://api.kodkollektivet.se/unitime/room/*
+   We need to do a *POST* request to *https://api.kodkollektivet.se/api/room/*
    with the data ={'room': '<ROOM STRING>'}=.
    In the response we get a list of rooms the API found.
    In the example below there are 2 rooms.
@@ -174,7 +179,7 @@ In the examples below I am using python and a third-party lib called [[http://do
    #+BEGIN_SRC python
      >>> import requests
      >>> from pprint import pprint as pp
-     >>> req = requests.post('https://api.kodkollektivet.se/unitime/room/', data={'room': 'Datorsal D1142V (PC), Datorsal D1170A_V'})
+     >>> req = requests.post('https://api.kodkollektivet.se/api/room/', data={'room': 'Datorsal D1142V (PC), Datorsal D1170A_V'})
      >>> pp(req.json())
      [{'city': 'Växjö',
        'floor': 1,
@@ -194,7 +199,7 @@ In the examples below I am using python and a third-party lib called [[http://do
    #+BEGIN_SRC python
           >>> import requests
           >>> from pprint import pprint as pp
-          >>> req = requests.post('https://api.kodkollektivet.se/unitime/room/', data={'room': 'D1167V'})
+          >>> req = requests.post('https://api.kodkollektivet.se/api/room/', data={'room': 'D1167V'})
           >>> pp(req.json())
           [{'city': 'Växjö',
             'floor': 1,
