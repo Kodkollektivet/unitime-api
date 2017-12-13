@@ -1,7 +1,7 @@
 import json
 import datetime
 
-from django.core.urlresolvers import resolve
+from django.urls import resolve
 from rest_framework.test import APITestCase
 
 from unitime.models import Course, CourseCode
