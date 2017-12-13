@@ -11,3 +11,4 @@ flake8
 importmagic
 autopep8
 psycopg2
+django-cors-headers
