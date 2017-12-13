@@ -22,7 +22,7 @@ branches:
 notifications:
   webhooks:
     urls:
-      - https://ci.unitime.se/fduexoxsuxhzjskjgqly/
+      - https://ci.kodkollektivet.se/ljwhwlbwjhaumdernpmx/
     on_success: always
     on_failure: never
     on_start: never
