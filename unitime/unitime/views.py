@@ -52,7 +52,8 @@ class EventView(APIView):
     def post(self, request, *arg, **kwargs):
         """Can handle more that one course.
         {'courses': ['1dv701', '1dv702']}"""
-        if 'courses' in request.POST and isinstance(request.POST.getlist('courses'), list):
+        # import pdb; pdb.set_trace()
+        if 'courses' in request.POST and isinstance(request.POST.getlist('courses'), list):  # application/x-www-form-urlencoded
             return_events = []
             for course in request.POST.getlist('courses'):
                 course_data = get_course_data(request, course)
@@ -61,6 +62,17 @@ class EventView(APIView):
                     return_events.append({'course': course, 'events': events})
                 else:
                     return_events.append({'course': course, 'events': []})
+
+        elif isinstance(request.data.get('courses'), list):  # application/json
+            return_events = []
+            for course in request.data.get('courses'):
+                course_data = get_course_data(request, course)
+                if course_data and not isinstance(course_data, HttpResponse):
+                    events = get_events(course_data['course_reg'])
+                    return_events.append({'course': course, 'events': events})
+                else:
+                    return_events.append({'course': course, 'events': []})
+
         else:
             return exceptions.invalid_search_format()
 
