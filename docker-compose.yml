@@ -1,0 +1,51 @@
+version: '3'
+
+services:
+  celdb:
+    image: postgres
+    hostname: celdb
+    container_name: celdb
+    # volumes:
+    #   - ./pg-data:/var/lib/postgresql/data
+  celredis:
+    image: redis:2.8.19
+    hostname: celredis
+    container_name: celredis
+  celrabbit:
+    container_name: celrabbit
+    hostname: celrabbit
+    image: rabbitmq:3.6.0
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "5672:5672"  # we forward this port because it's useful for debugging
+      - "15672:15672"  # here, we can access rabbitmq management plugin
+  celpython:
+    container_name: celpython
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - celrabbit
+      - celredis
+      - celdb
+    entrypoint: ./entrypoint.sh
+    command: python3 manage.py runserver 0.0.0.0:8000
+  celworker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ./run_celery.sh
+    volumes:
+      - .:/app
+    links:
+      - celdb
+      - celrabbit
+      - celredis
+    depends_on:
+      - celrabbit

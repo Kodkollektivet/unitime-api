@@ -1,0 +1,8 @@
+requests
+django
+djangorestframework
+redis
+celery
+psycopg2
+django-cors-headers
+django-sendgrid-v5
