@@ -1,7 +1,11 @@
 import requests
 import re
+import logging
 
 from django.db import models
+
+
+log = logging.getLogger(__name__)
 
 
 class TimeStampedModel(models.Model):
@@ -96,7 +100,6 @@ class CourseOffering(TimeStampedModel):
                                     'semester': data[6]['values'][0].split('-')[0][:2],         # 3, semester, HT
                                     'course': course
                                 })
-
         except Exception as e:
             print(e)
 
@@ -131,10 +134,13 @@ class Lecture(TimeStampedModel):
                 m = match.group()
                 m = re.sub(r'_V$|_K$|V$|K$', '', m, flags=re.IGNORECASE)
                 m = re.sub(r'A$|$B', '', m, flags=re.IGNORECASE)
+                log.debug(m)
                 return m.upper()
 
         for co in CourseOffering.objects.filter(course=course):
-            url = f"""https://se.timeedit.net/web/lnu/db1/schema2/s.json?object=courseevt_{co.semester}{co.year}-{co.registration_id}&tab=3"""
+            # import pdb; pdb.set_trace()
+            log.debug(co)
+            url = f"https://se.timeedit.net/web/lnu/db1/schema2/s.json?object=courseevt_{co.semester}{co.year}-{co.registration_id}&tab=3"
             try:
                 req = requests.get(url, timeout=10)
                 if req.status_code is 200:
@@ -155,7 +161,7 @@ class Lecture(TimeStampedModel):
                                         'start_datetime': event['startdate'] + ' ' + event['starttime'],  # start_datetime
                                         'end_datetime': event['startdate'] + ' ' + event['endtime'],      # end_datetime
                                         'teacher': event['columns'][3],                                   # teacher
-                                        'room': room,
+                                        'room': room or None,
                                         'info': event['columns'][5],                                      # info
                                         'description': event['columns'][8],                               # desc
                                         'course': course,

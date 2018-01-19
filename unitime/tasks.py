@@ -12,6 +12,26 @@ from celery import shared_task
 log = logging.getLogger(__name__)
 
 
+@shared_task
+def update(course_code):
+    # This doesnt work yet.
+    # I dont know hot two run two different celery instances
+    # This one works with:
+    # =su -c "celery -A settings worker -l info"=
+    from unitime.models import Course, CourseOffering, CourseCode, Lecture
+    print('something')
+    print(course_code)
+    try:
+        Course.update_remote(course_code)
+        course = Course.objects.get(code=course_code)
+        CourseOffering.update_remote(course)
+        Lecture.update_remote(course)
+        return True
+    except Exception as e:
+        print(e)
+        return False
+
+
 def get_courses_from_file():
     from unitime.models import CourseCode
     log.debug('Importing course codes from file.')
