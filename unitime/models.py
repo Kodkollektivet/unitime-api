@@ -29,6 +29,35 @@ class Course(TimeStampedModel):
     class Meta:
         unique_together = (("code", "name", "speed", "points"),)
 
+    @staticmethod
+    def update_remote(course_code):
+        course_code = course_code.upper()
+        url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={course_code}&types=5'
+        try:
+            req = requests.get(url, timeout=10)
+            if req.status_code is 200:
+                data = req.json()
+                if data.get('count', 0) is not 0:
+                    course_id = data['ids'][-1]
+                    url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects/{course_id}/o.json'
+                    req = requests.get(url, timeout=10)
+                    if req.status_code is 200:
+                        data = req.json()
+                        data = data['records'][0]['fields']
+                        # pp(data)
+                        obj, created = Course.objects.update_or_create(
+                            code = course_code,
+                            defaults = {
+                                'code': course_code,
+                                'name': data[2]['values'][0],     # name
+                                'speed': data[4]['values'][0],    # speed
+                                'points': data[3]['values'][0],   # points
+                                'syllabus': f'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code={course_code}&documenttype=pdf&lang=en'
+                            })
+
+        except Exception as e:
+            print(e)
+
 
 class CourseOffering(TimeStampedModel):
     offering_id = models.CharField(max_length=254)
