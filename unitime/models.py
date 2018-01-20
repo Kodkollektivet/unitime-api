@@ -75,9 +75,7 @@ class CourseOffering(TimeStampedModel):
 
     @staticmethod
     def update_remote(course):
-        url = f"""https://se.timeedit.net/web/lnu/db1/schema2/objects.txt
-                  ?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&
-                  search_text={course.code}&types=5"""
+        url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={course.code}&types=5'
         try:
             req = requests.get(url, timeout=10)
             if req.status_code is 200:
@@ -122,7 +120,7 @@ class Lecture(TimeStampedModel):
     course_offering = models.ForeignKey(CourseOffering, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (("start_datetime", "end_datetime", "teacher", "course"),)
+        unique_together = (("start_datetime", "end_datetime", "teacher", "course", "course_offering"),)
 
     @staticmethod
     def update_remote(course):

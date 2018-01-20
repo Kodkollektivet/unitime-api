@@ -19,36 +19,37 @@
 * Restclient
   <<restclient>>
 
-
+  1PE502,
+  2DV50E
   #+BEGIN_SRC restclient
     GET http://localhost:8000/api/course/
     User-Agent: Emacs Restclient
     Content-Type: application/json
 
     {
-        "course": "1PE502"
+        "course": "2DV50E"
     }
   #+END_SRC
 
   #+RESULTS:
   #+BEGIN_SRC js
   {
-    "code": "1PE502",
-    "name": "Pedagogical and professional leadership",
+    "code": "2DV50E",
+    "name": "Degree Project at Bachelor Level",
     "speed": "50%",
     "points": "15 hp",
-    "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=1PE502&documenttype=pdf&lang=en"
+    "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=2DV50E&documenttype=pdf&lang=en"
   }
   // GET http://localhost:8000/api/course/
   // HTTP/1.1 200 OK
-  // Date: Fri, 19 Jan 2018 21:23:52 GMT
+  // Date: Sat, 20 Jan 2018 18:57:42 GMT
   // Server: WSGIServer/0.2 CPython/3.6.3
   // Content-Type: application/json
   // Vary: Accept, Cookie
   // Allow: GET, HEAD, OPTIONS
   // X-Frame-Options: SAMEORIGIN
-  // Content-Length: 233
-  // Request duration: 0.013369s
+  // Content-Length: 226
+  // Request duration: 0.182713s
   #+END_SRC
 
   #+BEGIN_SRC restclient
@@ -57,23 +58,960 @@
     Content-Type: application/json
 
     {
-        "course": "1PE502"
+        "course": "2DV50E"
     }
   #+END_SRC
 
   #+RESULTS:
   #+BEGIN_SRC js
-  []
+  [
+    {
+      "start_datetime": "2018-01-23T10:15:00",
+      "end_datetime": "2018-01-23T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-01-23T10:15:00",
+      "end_datetime": "2018-01-23T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-01-23T10:15:00",
+      "end_datetime": "2018-01-23T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-01-23T10:15:00",
+      "end_datetime": "2018-01-23T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-01-30T10:15:00",
+      "end_datetime": "2018-01-30T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-01-30T10:15:00",
+      "end_datetime": "2018-01-30T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-01-30T10:15:00",
+      "end_datetime": "2018-01-30T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-01-30T10:15:00",
+      "end_datetime": "2018-01-30T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-06T10:15:00",
+      "end_datetime": "2018-02-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-06T10:15:00",
+      "end_datetime": "2018-02-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-06T10:15:00",
+      "end_datetime": "2018-02-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-06T10:15:00",
+      "end_datetime": "2018-02-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-13T10:15:00",
+      "end_datetime": "2018-02-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-13T10:15:00",
+      "end_datetime": "2018-02-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-13T10:15:00",
+      "end_datetime": "2018-02-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-13T10:15:00",
+      "end_datetime": "2018-02-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-20T10:15:00",
+      "end_datetime": "2018-02-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-20T10:15:00",
+      "end_datetime": "2018-02-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-20T10:15:00",
+      "end_datetime": "2018-02-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-20T10:15:00",
+      "end_datetime": "2018-02-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-27T10:15:00",
+      "end_datetime": "2018-02-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-27T10:15:00",
+      "end_datetime": "2018-02-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-27T10:15:00",
+      "end_datetime": "2018-02-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-02-27T10:15:00",
+      "end_datetime": "2018-02-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-06T10:15:00",
+      "end_datetime": "2018-03-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-06T10:15:00",
+      "end_datetime": "2018-03-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-06T10:15:00",
+      "end_datetime": "2018-03-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-06T10:15:00",
+      "end_datetime": "2018-03-06T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-13T10:15:00",
+      "end_datetime": "2018-03-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-13T10:15:00",
+      "end_datetime": "2018-03-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-13T10:15:00",
+      "end_datetime": "2018-03-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-13T10:15:00",
+      "end_datetime": "2018-03-13T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-20T10:15:00",
+      "end_datetime": "2018-03-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-20T10:15:00",
+      "end_datetime": "2018-03-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-20T10:15:00",
+      "end_datetime": "2018-03-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-20T10:15:00",
+      "end_datetime": "2018-03-20T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-27T10:15:00",
+      "end_datetime": "2018-03-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-27T10:15:00",
+      "end_datetime": "2018-03-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-27T10:15:00",
+      "end_datetime": "2018-03-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-03-27T10:15:00",
+      "end_datetime": "2018-03-27T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-03T10:15:00",
+      "end_datetime": "2018-04-03T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-03T10:15:00",
+      "end_datetime": "2018-04-03T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-03T10:15:00",
+      "end_datetime": "2018-04-03T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-03T10:15:00",
+      "end_datetime": "2018-04-03T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-10T10:15:00",
+      "end_datetime": "2018-04-10T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-10T10:15:00",
+      "end_datetime": "2018-04-10T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-10T10:15:00",
+      "end_datetime": "2018-04-10T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-10T10:15:00",
+      "end_datetime": "2018-04-10T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-17T10:15:00",
+      "end_datetime": "2018-04-17T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-17T10:15:00",
+      "end_datetime": "2018-04-17T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-17T10:15:00",
+      "end_datetime": "2018-04-17T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-17T10:15:00",
+      "end_datetime": "2018-04-17T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-24T10:15:00",
+      "end_datetime": "2018-04-24T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-24T10:15:00",
+      "end_datetime": "2018-04-24T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-24T10:15:00",
+      "end_datetime": "2018-04-24T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-04-24T10:15:00",
+      "end_datetime": "2018-04-24T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-08T10:15:00",
+      "end_datetime": "2018-05-08T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-08T10:15:00",
+      "end_datetime": "2018-05-08T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-08T10:15:00",
+      "end_datetime": "2018-05-08T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-08T10:15:00",
+      "end_datetime": "2018-05-08T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-15T10:15:00",
+      "end_datetime": "2018-05-15T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-15T10:15:00",
+      "end_datetime": "2018-05-15T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-15T10:15:00",
+      "end_datetime": "2018-05-15T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-15T10:15:00",
+      "end_datetime": "2018-05-15T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-22T10:15:00",
+      "end_datetime": "2018-05-22T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-22T10:15:00",
+      "end_datetime": "2018-05-22T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-22T10:15:00",
+      "end_datetime": "2018-05-22T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-22T10:15:00",
+      "end_datetime": "2018-05-22T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-29T10:15:00",
+      "end_datetime": "2018-05-29T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-29T10:15:00",
+      "end_datetime": "2018-05-29T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-29T10:15:00",
+      "end_datetime": "2018-05-29T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    },
+    {
+      "start_datetime": "2018-05-29T10:15:00",
+      "end_datetime": "2018-05-29T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 56.855651,
+        "lon": 14.828812
+      }
+    }
+  ]
   // GET http://localhost:8000/api/lectures/
   // HTTP/1.1 200 OK
-  // Date: Fri, 19 Jan 2018 21:35:00 GMT
+  // Date: Sat, 20 Jan 2018 18:58:34 GMT
   // Server: WSGIServer/0.2 CPython/3.6.3
   // Content-Type: application/json
   // Vary: Accept, Cookie
   // Allow: GET, HEAD, OPTIONS
   // X-Frame-Options: SAMEORIGIN
-  // Content-Length: 2
-  // Request duration: 0.053959s
+  // Content-Length: 16272
+  // Request duration: 0.090023s
   #+END_SRC
 
 * Stuff

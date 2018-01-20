@@ -10,28 +10,36 @@ from unitime.forms import CourseCodeForm
 from unitime.tasks import update
 
 
+def get_course(course_code):
+    counter = 0
+    while True:
+        try:
+            course = Course.objects.get(code=course_code)
+            return course
+        except Course.DoesNotExist as e:
+            Course.update_remote(course_code)
+            if counter > 2:
+                break
+        counter = counter + 1
+    return None
+
+
 class LecturesView(APIView):
     def get(self, request):
         form = CourseCodeForm(request.data)
         if form.is_valid():
-            update.delay(form.cleaned_data['course'])
-            obj, created = CourseCode.objects.get_or_create(course_code=form.cleaned_data['course'])
-            try:
-                course = Course.objects.get(code=obj.course_code)
-
-                # CourseOffering.update_remote(course)
-                # Lecture.update_remote(course)
+            course_code = form.cleaned_data['course']
+            update.delay(course_code)
+            course = get_course(course_code)
+            if course:
                 lectures = Lecture.objects.filter(
                     course=course,
-                    #start_datetime__gt=timezone.now() - timezone.timedelta(days=1)
+                    start_datetime__gt=timezone.now() - timezone.timedelta(days=1)
                 ).order_by('start_datetime')
                 serializer = LectureSerializer(lectures, many=True)
                 return JsonResponse(serializer.data, safe=False)
-
-            except Exception as e:
-                print(e)
+            else:
                 return HttpResponse('Course doesnt exists.')
-
         else:
             return HttpResponse(form.errors.as_json(),
                                 content_type='application/json',
@@ -42,12 +50,15 @@ class CourseView(APIView):
     def get(self, request):
         form = CourseCodeForm(request.data)
         if form.is_valid():
-            update.delay(form.cleaned_data['course'])
-            obj, created = CourseCode.objects.get_or_create(course_code=form.cleaned_data['course'])
-            try:
-                # Course.update_remote(obj.course_code)
-                course = Course.objects.get(code=obj.course_code)
+            course_code = form.cleaned_data['course']
+            CourseCode.objects.update_or_create(course_code=course_code)
+            course = get_course(course_code)
+            if course:
                 serializer = CourseSerializer(course, many=False)
                 return JsonResponse(serializer.data, safe=False)
-            except Exception as e:
-                print(e)
+            else:
+                return HttpResponse('Course not found')
+        else:
+            return HttpResponse(form.errors.as_json(),
+                                content_type='application/json',
+                                status=404)

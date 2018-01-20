@@ -137,7 +137,7 @@ CELERY_IMPORTS = (
 CELERY_BEAT_SCHEDULE = {
     'task-number-one': {
         'task': 'unitime.tasks.execute_tasks',
-        'schedule': timedelta(minutes=15)
+        'schedule': timedelta(minutes=60)
     },
 }
 

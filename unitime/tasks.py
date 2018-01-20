@@ -14,14 +14,9 @@ log = logging.getLogger(__name__)
 
 @shared_task
 def update(course_code):
-    # This doesnt work yet.
-    # I dont know hot two run two different celery instances
-    # This one works with:
-    # =su -c "celery -A settings worker -l info"=
     from unitime.models import Course, CourseOffering, CourseCode, Lecture
-    print('something')
-    print(course_code)
     try:
+        CourseCode.objects.update_or_create(course_code=course_code)
         Course.update_remote(course_code)
         course = Course.objects.get(code=course_code)
         CourseOffering.update_remote(course)
