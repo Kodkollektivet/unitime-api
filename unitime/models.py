@@ -34,7 +34,7 @@ class Course(TimeStampedModel):
         unique_together = (("code", "name", "speed", "points"),)
 
     @staticmethod
-    def update_remote(course_code):
+    def update_remote(course_code: str):
         course_code = course_code.upper()
         url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={course_code}&types=5'
         try:
@@ -74,7 +74,7 @@ class CourseOffering(TimeStampedModel):
         unique_together = (("offering_id", "registration_id", "year", "semester"),)
 
     @staticmethod
-    def update_remote(course):
+    def update_remote(course: Course):
         url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={course.code}&types=5'
         try:
             req = requests.get(url, timeout=10)
@@ -108,6 +108,28 @@ class Room(TimeStampedModel):
     lat = models.FloatField(blank=True, null=True)
     lon = models.FloatField(blank=True, null=True)
 
+    @staticmethod
+    def update_remote():
+        try:
+            req = requests.get('http://karta.lnu.se/api/locations/', timeout=10)
+            if req.status_code is 200:
+                data = req.json()
+                for room in data:
+                    name = room['Swedish_Main_Name']
+                    name = re.sub(r'_V$|_K$', '', name, flags=re.IGNORECASE)
+                    name = re.sub(r'V$|K$', '', name, flags=re.IGNORECASE)
+                    name = re.sub(r'A$|B$', '', name, flags=re.IGNORECASE)
+                    name = name.upper()
+                    Room.objects.update_or_create(
+                        name = name,
+                        defaults = {
+                            'name': name,
+                            'floor': room['Floor_Number'],
+                            'lat': room['Latitude'],
+                            'lon': room['Longitude']})
+        except Exception as e:
+            print(e)
+
 
 class Lecture(TimeStampedModel):
     start_datetime = models.DateTimeField()
@@ -123,7 +145,7 @@ class Lecture(TimeStampedModel):
         unique_together = (("start_datetime", "end_datetime", "teacher", "course", "course_offering"),)
 
     @staticmethod
-    def update_remote(course):
+    def update_remote(course: Course):
         print('Lecture updates.')
 
         def _parse_room(room):
@@ -132,12 +154,9 @@ class Lecture(TimeStampedModel):
                 m = match.group()
                 m = re.sub(r'_V$|_K$|V$|K$', '', m, flags=re.IGNORECASE)
                 m = re.sub(r'A$|$B', '', m, flags=re.IGNORECASE)
-                log.debug(m)
                 return m.upper()
 
         for co in CourseOffering.objects.filter(course=course):
-            # import pdb; pdb.set_trace()
-            log.debug(co)
             url = f"https://se.timeedit.net/web/lnu/db1/schema2/s.json?object=courseevt_{co.semester}{co.year}-{co.registration_id}&tab=3"
             try:
                 req = requests.get(url, timeout=10)

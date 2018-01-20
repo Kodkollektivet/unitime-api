@@ -30,16 +30,11 @@ def update(course_code):
 def get_courses_from_file():
     from unitime.models import CourseCode
     log.debug('Importing course codes from file.')
-    codes = []
     with open('/app/test_codes.txt') as f:
         for line in f:
             course = line
             course = re.sub('\n', '', course)
-            try:
-                cc = CourseCode(course_code=course)
-                cc.save()
-            except Exception as e:
-                log.debug(e)
+            CourseCode.objects.update_or_create(course_code=course)
 
 
 def get_rooms_from_remote():
@@ -57,8 +52,7 @@ def get_courses_to_db():
     from unitime.models import CourseCode, Course
     from unitime.remote import get_course, get_course_offerings
 
-    if len(Course.objects.all()) == 0:
-        get_courses_from_file()
+
 
     log.debug('Start getting remote courses.')
     try:
@@ -113,16 +107,33 @@ def get_all_lectures():
 
 
 @shared_task
-def execute_tasks():
+def daily_update():
+    import time
     from django.core.mail import send_mail
-    get_rooms_from_remote()
-    get_courses_to_db()
-    get_course_offerings_to_db()
-    get_all_lectures()
-    send_mail(
-        'Unitime celery is done.',
-        'Unitime celery is done.',
-        'unitime@kodkollektivet.se',
-        ['jherrlin@gmail.com'],
-        fail_silently=False,
-    )
+    from unitime.models import Room, CourseCode, Course, CourseOffering, Lecture
+    log.debug('Starting daily update.')
+    start_time = time.time()
+    Room.update_remote()
+
+    if len(CourseCode.objects.all()) == 0:
+        get_courses_from_file()
+
+    for course_code in CourseCode.objects.all():
+        Course.update_remote(course_code.course_code)
+
+    for course in Course.objects.all():
+        CourseOffering.update_remote(course)
+        Lecture.update_remote(course)
+
+    elapsed_time = time.time() - start_time
+    try:
+        send_mail(
+            'Unitime daily_update is done.',
+            f'Unitime daily_update is done. \nExecution took: {elapsed_time} sec.',
+            'unitime@kodkollektivet.se',
+            ['jherrlin@gmail.com'],
+            fail_silently=False,
+        )
+    except Exception as e:
+        log.debug(e)
+    log.debug(f'Daily update done. Execution took: {elapsed_time} sec.')

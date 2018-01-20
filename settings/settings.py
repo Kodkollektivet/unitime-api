@@ -136,8 +136,8 @@ CELERY_IMPORTS = (
 
 CELERY_BEAT_SCHEDULE = {
     'task-number-one': {
-        'task': 'unitime.tasks.execute_tasks',
-        'schedule': timedelta(minutes=60)
+        'task': 'unitime.tasks.daily_update',
+        'schedule': timedelta(minutes=3)
     },
 }
 
@@ -155,8 +155,8 @@ LOGGING = {
             'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
         },
         'verbose': {
-            'format': '[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s',
-            'datefmt': '%d/%b/%Y %H:%M:%S'
+            'format': '%(asctime)s;%(levelname)s;%(name)s:%(lineno)s;\t%(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S'
         },
         'simple': {
             'format': '%(levelname)s %(message)s'
@@ -169,7 +169,7 @@ LOGGING = {
             'filename': BASE_DIR + '/logs/unitime.log',
             'maxBytes': 1024 * 1024 * 5,  # 5BM
             'backupCount': 5,
-            'formatter': 'standard',
+            'formatter': 'verbose',
         },
         'django': {
             'level': 'DEBUG',
