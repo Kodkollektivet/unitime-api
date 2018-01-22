@@ -1,0 +1,13 @@
+---
+#
+# Nginx
+#
+
+- name: Install Nginx
+  apt: update_cache=yes name="{{ item }}" state=present
+  with_items:
+    - nginx
+    - nginx-full
+
+- name: Start Nginx
+  service: name=nginx enabled=yes state=started

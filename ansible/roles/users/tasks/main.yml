@@ -1,0 +1,22 @@
+---
+#
+# Configure users.
+#
+
+- name: Create "{{ unix.username }}" group
+  group:
+      name: "{{ unix.username }}"
+      system: no
+      state: present
+
+- name: Create "{{ unix.username }}"  user
+  user:
+      name: "{{ unix.username }}"
+      password: "{{ unix.password }}"
+      group: "{{ unix.username }}"
+      home: "{{ unix.home }}"
+      createhome: yes
+      skeleton: yes
+      system: no
+      shell: /bin/bash
+      state: present

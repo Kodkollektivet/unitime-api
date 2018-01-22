@@ -1,0 +1,12 @@
+---
+
+- name: Site
+  hosts: servers
+  max_fail_percentage: 0
+  roles:
+    - roles/users
+    - roles/base
+    - roles/nginx
+    - roles/postgres
+    - roles/redis
+    - roles/rabbitmq

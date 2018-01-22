@@ -1,0 +1,5 @@
+dolearnansible ansible_ssh_host= ansible_ssh_user=root ansible_ssh_pass= ansible_python_interpreter=/usr/bin/python2
+dolearnansible1 ansible_ssh_host= ansible_ssh_user=root ansible_ssh_pass= ansible_python_interpreter=/usr/bin/python2
+
+[servers]
+dolearnansible1
