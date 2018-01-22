@@ -137,10 +137,13 @@ CELERY_IMPORTS = (
     'unitime.tasks',
 )
 
+from celery.schedules import crontab
+
 CELERY_BEAT_SCHEDULE = {
     'task-number-one': {
         'task': 'unitime.tasks.daily_update',
-        'schedule': timedelta(minutes=3)
+        'schedule': crontab(minute='10', hour='10', day_of_week='*')
+        # time.now() - 1 hour to get the execution to start.
     },
 }
 
