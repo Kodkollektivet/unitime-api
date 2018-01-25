@@ -10,3 +10,4 @@
     - roles/postgres
     - roles/redis
     - roles/rabbitmq
+    - roles/python

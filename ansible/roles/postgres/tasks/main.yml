@@ -11,13 +11,16 @@
   with_items:
       - postgresql
       - libpq-dev
+      - postgresql-client
+      - postgresql-client-common
       - python-psycopg2
 
 - name: Create user with create permissions
   become: true
   become_user: postgres
+  become_method: sudo
   postgresql_user:
-    db: "{{ postgres.db }}"
     name: "{{ postgres.user }}"
     password: "{{ postgres.pass }}"
     role_attr_flags: CREATEDB,NOSUPERUSER
+    state: present
