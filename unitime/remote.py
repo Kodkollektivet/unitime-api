@@ -5,14 +5,14 @@ from pprint import pprint as pp
 
 def get_course(course_code) -> dict:
     course_code = course_code.upper()
-    url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={course_code}&types=5'
+    url = 'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={}&types=5'.format(course_code)
     try:
         req = requests.get(url, timeout=10)
         if req.status_code is 200:
             data = req.json()
             if data.get('count', 0) is not 0:
                 course_id = data['ids'][-1]
-                url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects/{course_id}/o.json'
+                url = 'https://se.timeedit.net/web/lnu/db1/schema2/objects/{}/o.json'.format(course_id)
                 req = requests.get(url, timeout=10)
                 if req.status_code is 200:
                     data = req.json()
@@ -23,7 +23,7 @@ def get_course(course_code) -> dict:
                         'name': data[2]['values'][0],     # name
                         'speed': data[4]['values'][0],    # speed
                         'points': data[3]['values'][0],   # points
-                        'syllabus': f'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code={course_code}&documenttype=pdf&lang=en'
+                        'syllabus': 'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code={}&documenttype=pdf&lang=en'.format(course_code)
                     }
     except Exception as e:
         pass
@@ -34,14 +34,14 @@ def get_course(course_code) -> dict:
 def get_course_offerings(course_code) -> list:
     course_code = course_code.upper()
     course_offerings = []
-    url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={course_code}&types=5'
+    url = 'https://se.timeedit.net/web/lnu/db1/schema2/objects.txt?max=15&fr=t&partajax=t&im=f&sid=6&l=en_US&search_text={}&types=5'.format(course_code)
     try:
         req = requests.get(url, timeout=10)
         if req.status_code is 200:
             data = req.json()
             if data.get('count', 0) is not 0:  # There are more than one course offering
                 for course_id in data['ids']:
-                    url = f'https://se.timeedit.net/web/lnu/db1/schema2/objects/{course_id}/o.json'
+                    url = 'https://se.timeedit.net/web/lnu/db1/schema2/objects/{}/o.json'.format(course_id)
                     req = requests.get(url, timeout=10)
                     if req.status_code is 200:
                         data = req.json()
@@ -74,7 +74,7 @@ def get_lectures(co) -> list:
 
     def _remote():
         try:
-            url = f"https://se.timeedit.net/web/lnu/db1/schema2/s.json?object=courseevt_{co.semester}{co.year}-{co.registration_id}&tab=3"
+            url = 'https://se.timeedit.net/web/lnu/db1/schema2/s.json?object=courseevt_{}{}-{}&tab=3'.format(co.semester, co.year, co.registration_id)
             req = requests.get(url, timeout=10)
             if req.status_code is 200:
                 data = req.json()
