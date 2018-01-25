@@ -60,11 +60,11 @@ def daily_update():
     try:
         send_mail(
             'Unitime daily_update is done.',
-            f'Unitime daily_update is done. \nExecution took: {elapsed_time:.1f} sec.',
+            'Unitime daily_update is done. \nExecution took: {:.1f} sec.'.format(elapsed_time),
             'unitime@kodkollektivet.se',
             ['jherrlin@gmail.com'],
             fail_silently=False,
         )
     except Exception as e:
         log.debug(e)
-    log.debug(f'Daily update done. Execution took: {elapsed_time:.1f} sec.')
+    log.debug('Daily update done. Execution took: {:.1f} sec.'.format(elapsed_time))
