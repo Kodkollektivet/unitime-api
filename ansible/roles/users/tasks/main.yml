@@ -45,9 +45,9 @@
     line: "{{ item }}"
     state: present
   with_items:  # This does not work
-    - "%{{ unix.username }} ALL=(ALL) NOPASSWD: /bin/systemctl enable unitime-celery.service"
-    - "%{{ unix.username }} ALL=(ALL) NOPASSWD: /bin/systemctl enable unitime.service"
-    - "%{{ unix.username }} ALL=(ALL) NOPASSWD: /bin/systemctl status unitime-celery.service"
-    - "%{{ unix.username }} ALL=(ALL) NOPASSWD: /bin/systemctl status unitime.service"
-    - "%{{ unix.username }} ALL=(ALL) NOPASSWD: /bin/systemctl restart unitime-celery.service"
-    - "%{{ unix.username }} ALL=(ALL) NOPASSWD: /bin/systemctl restart unitime.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl enable unitime-celery.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl enable unitime.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl status unitime-celery.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl status unitime.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl restart unitime-celery.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl restart unitime.service"
