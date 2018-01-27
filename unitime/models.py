@@ -142,7 +142,7 @@ class Lecture(TimeStampedModel):
     course_offering = models.ForeignKey(CourseOffering, on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = (("start_datetime", "end_datetime", "teacher", "course", "course_offering"),)
+        unique_together = (("start_datetime", "end_datetime", "teacher", "course"),)
 
     @staticmethod
     def update_remote(course: Course):
