@@ -4,6 +4,8 @@ import re
 import time
 import logging
 
+from django.conf import settings
+
 from celery import Celery
 from celery.schedules import crontab
 from celery import shared_task
@@ -30,7 +32,7 @@ def update(course_code):
 def get_courses_from_file():
     from unitime.models import CourseCode
     log.debug('Importing course codes from file.')
-    with open('/app/test_codes.txt') as f:
+    with open(settings.BASE_DIR+'/course_codes.txt') as f:
         for line in f:
             course = line
             course = re.sub('\n', '', course)
