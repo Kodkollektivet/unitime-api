@@ -1,26 +1,24 @@
+#+TITLE: Unitime API 2.0
+#+AUTHOR: John Herrlin
 
 * Unitime 2.0
 
   This is the new Unitime 2.0 branch.
 
-  Work is in progress.
+  Work is in progress, but it is getting pretty stable i think.
 
-* Development environment
+* Local development environment
 
-  Dont beleve everything in this docuement. BUT the project is running docker. So to start
-  the environment use
+  By default this project is running =Docker= and =docker-compose=.
+
+  To start the development environment, enter the project directory and run the following:
 
   #+BEGIN_SRC shell
     docker-compose up
   #+END_SRC
 
-  See example of usage [[restclient][below]] in Restclient.
+* Unitime endpoints and usage
 
-* Restclient
-  <<restclient>>
-
-  1PE502,
-  2DV50E
   #+BEGIN_SRC restclient
     GET http://localhost:8000/api/course/
     User-Agent: Emacs Restclient
@@ -31,7 +29,6 @@
     }
   #+END_SRC
 
-  #+RESULTS:
   #+BEGIN_SRC js
   {
     "code": "2DV50E",
@@ -40,16 +37,6 @@
     "points": "15 hp",
     "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=2DV50E&documenttype=pdf&lang=en"
   }
-  // GET http://localhost:8000/api/course/
-  // HTTP/1.1 200 OK
-  // Date: Sat, 20 Jan 2018 18:57:42 GMT
-  // Server: WSGIServer/0.2 CPython/3.6.3
-  // Content-Type: application/json
-  // Vary: Accept, Cookie
-  // Allow: GET, HEAD, OPTIONS
-  // X-Frame-Options: SAMEORIGIN
-  // Content-Length: 226
-  // Request duration: 0.182713s
   #+END_SRC
 
   #+BEGIN_SRC restclient
@@ -62,62 +49,9 @@
     }
   #+END_SRC
 
-  #+RESULTS:
   #+BEGIN_SRC js
   [
     {
-      "start_datetime": "2018-01-23T10:15:00",
-      "end_datetime": "2018-01-23T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-01-23T10:15:00",
-      "end_datetime": "2018-01-23T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-01-23T10:15:00",
-      "end_datetime": "2018-01-23T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-01-23T10:15:00",
-      "end_datetime": "2018-01-23T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
       "start_datetime": "2018-01-30T10:15:00",
       "end_datetime": "2018-01-30T12:00:00",
       "teacher": "Jesper Andersson",
@@ -125,830 +59,12 @@
       "description": "",
       "room": {
         "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
+        "floor": null,
+        "lat": null,
+        "lon": null
       }
     },
-    {
-      "start_datetime": "2018-01-30T10:15:00",
-      "end_datetime": "2018-01-30T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-01-30T10:15:00",
-      "end_datetime": "2018-01-30T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-01-30T10:15:00",
-      "end_datetime": "2018-01-30T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-06T10:15:00",
-      "end_datetime": "2018-02-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-06T10:15:00",
-      "end_datetime": "2018-02-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-06T10:15:00",
-      "end_datetime": "2018-02-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-06T10:15:00",
-      "end_datetime": "2018-02-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-13T10:15:00",
-      "end_datetime": "2018-02-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-13T10:15:00",
-      "end_datetime": "2018-02-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-13T10:15:00",
-      "end_datetime": "2018-02-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-13T10:15:00",
-      "end_datetime": "2018-02-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-20T10:15:00",
-      "end_datetime": "2018-02-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-20T10:15:00",
-      "end_datetime": "2018-02-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-20T10:15:00",
-      "end_datetime": "2018-02-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-20T10:15:00",
-      "end_datetime": "2018-02-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-27T10:15:00",
-      "end_datetime": "2018-02-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-27T10:15:00",
-      "end_datetime": "2018-02-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-27T10:15:00",
-      "end_datetime": "2018-02-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-02-27T10:15:00",
-      "end_datetime": "2018-02-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-06T10:15:00",
-      "end_datetime": "2018-03-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-06T10:15:00",
-      "end_datetime": "2018-03-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-06T10:15:00",
-      "end_datetime": "2018-03-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-06T10:15:00",
-      "end_datetime": "2018-03-06T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-13T10:15:00",
-      "end_datetime": "2018-03-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-13T10:15:00",
-      "end_datetime": "2018-03-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-13T10:15:00",
-      "end_datetime": "2018-03-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-13T10:15:00",
-      "end_datetime": "2018-03-13T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-20T10:15:00",
-      "end_datetime": "2018-03-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-20T10:15:00",
-      "end_datetime": "2018-03-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-20T10:15:00",
-      "end_datetime": "2018-03-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-20T10:15:00",
-      "end_datetime": "2018-03-20T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-27T10:15:00",
-      "end_datetime": "2018-03-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-27T10:15:00",
-      "end_datetime": "2018-03-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-27T10:15:00",
-      "end_datetime": "2018-03-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-03-27T10:15:00",
-      "end_datetime": "2018-03-27T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-03T10:15:00",
-      "end_datetime": "2018-04-03T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-03T10:15:00",
-      "end_datetime": "2018-04-03T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-03T10:15:00",
-      "end_datetime": "2018-04-03T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-03T10:15:00",
-      "end_datetime": "2018-04-03T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-10T10:15:00",
-      "end_datetime": "2018-04-10T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-10T10:15:00",
-      "end_datetime": "2018-04-10T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-10T10:15:00",
-      "end_datetime": "2018-04-10T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-10T10:15:00",
-      "end_datetime": "2018-04-10T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-17T10:15:00",
-      "end_datetime": "2018-04-17T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-17T10:15:00",
-      "end_datetime": "2018-04-17T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-17T10:15:00",
-      "end_datetime": "2018-04-17T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-17T10:15:00",
-      "end_datetime": "2018-04-17T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-24T10:15:00",
-      "end_datetime": "2018-04-24T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-24T10:15:00",
-      "end_datetime": "2018-04-24T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-24T10:15:00",
-      "end_datetime": "2018-04-24T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-04-24T10:15:00",
-      "end_datetime": "2018-04-24T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-08T10:15:00",
-      "end_datetime": "2018-05-08T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-08T10:15:00",
-      "end_datetime": "2018-05-08T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-08T10:15:00",
-      "end_datetime": "2018-05-08T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-08T10:15:00",
-      "end_datetime": "2018-05-08T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-15T10:15:00",
-      "end_datetime": "2018-05-15T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-15T10:15:00",
-      "end_datetime": "2018-05-15T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-15T10:15:00",
-      "end_datetime": "2018-05-15T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-15T10:15:00",
-      "end_datetime": "2018-05-15T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-22T10:15:00",
-      "end_datetime": "2018-05-22T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-22T10:15:00",
-      "end_datetime": "2018-05-22T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-22T10:15:00",
-      "end_datetime": "2018-05-22T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-22T10:15:00",
-      "end_datetime": "2018-05-22T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
+    ...
     {
       "start_datetime": "2018-05-29T10:15:00",
       "end_datetime": "2018-05-29T12:00:00",
@@ -958,279 +74,118 @@
       "room": {
         "name": "D1167",
         "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-29T10:15:00",
-      "end_datetime": "2018-05-29T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-29T10:15:00",
-      "end_datetime": "2018-05-29T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
-      }
-    },
-    {
-      "start_datetime": "2018-05-29T10:15:00",
-      "end_datetime": "2018-05-29T12:00:00",
-      "teacher": "Jesper Andersson",
-      "info": "Seminar",
-      "description": "",
-      "room": {
-        "name": "D1167",
-        "floor": 1,
-        "lat": 56.855651,
-        "lon": 14.828812
+        "lat": 1.203,
+        "lon": 0.34530
       }
     }
   ]
-  // GET http://localhost:8000/api/lectures/
-  // HTTP/1.1 200 OK
-  // Date: Sat, 20 Jan 2018 18:58:34 GMT
-  // Server: WSGIServer/0.2 CPython/3.6.3
-  // Content-Type: application/json
-  // Vary: Accept, Cookie
-  // Allow: GET, HEAD, OPTIONS
-  // X-Frame-Options: SAMEORIGIN
-  // Content-Length: 16272
-  // Request duration: 0.090023s
   #+END_SRC
 
-* Stuff
+* Set up a new production server
+** Local environment
 
-#+BEGIN_SRC shell
-docker-compose up
-#+END_SRC
+   To be able to use the application or deploy it you need to have =Docker= and
+   =docker-compose=. This instrictions are only for GNU/Linux systems. If you use
+   something else I am sure there are ways to translate the instruction to you OS.
 
-Enter the env
+** Start a new server
 
-#+BEGIN_SRC shell
-docker exec -it celpython bash
-#+END_SRC
+   Start a new Debian (yes it must be Debian) server somewhere. I mostly use [[https://www.digitalocean.com/][digitalocean]].
+   Log in to the server first via SSH as it will ask you to set a new password for the
+   root user.
 
-start celery
+** Clone this project
 
-#+BEGIN_SRC shell
-celery -A tasks worker --loglevel=info -B
-celery -A settings worker -l info -B
+   to your local machine.
 
-#+END_SRC
+** Generate SSH key
 
-#+BEGIN_SRC python :dir ~/git/celery-docker
-from tasks import add
-a = add.delay(1, 3)
-a.status
-a.result
-a.state
-#+END_SRC
+   Navigate to the secrets folder within the project directory. Take a look at the files
+   and what they contains. Generate a new SSH key. Move the public key to ansible users
+   filder. This key will be used for deploy. If it asks you to overwrite the existing
+   file, choose =y=. Dont enter a passphrase.
 
-#+RESULTS:
+   #+BEGIN_SRC
+     cd <PROJECTDIR>/secrets
+     ssh-keygen -t ed25519 -f unitime-deploy-user -C unitime-deploy-user
+     cp unitime-deploy-user.pub ../ansible/roles/users/files/authorized_keys
+   #+END_SRC
 
-start celery and run with beat option.
+** Update inventory
 
-#+BEGIN_SRC shell
-celery -A tasks worker --loglevel=info -B
-#+END_SRC
+   In =secrets/inventory= you shall now update some secrets.
 
+   Change the =ansible_ssh_host= variable to your servers IP.
 
-  #+BEGIN_SRC shell :dir ~/git/celery-docker :results output
-    docker inspect celdb | grep IPAddress
+   Change the =ansible_ssh_pass= variable to your server root password account.
+
+   In =secrets/production.json= change:
+
+   =unix->password= to a new random password
+
+   =postgres->password= to a new random password
+
+** Configure the server
+
+   To configure the server run:
+
+   #+BEGIN_SRC sh
+     docker build -t unians:0.1 -f Dockerfile-ansible .
+     docker run -it -v $PWD:/app --rm -w /app/ansible unians:0.1 ansible-playbook -e @../secrets/production.json main.yml
+   #+END_SRC
+
+   If all things went fine (no red output).
+
+** Set up unitime application
+
+   This will apply the code from the project and start the services.
+
+   #+BEGIN_SRC sh
+     docker build -t unifab:0.1 -f Dockerfile-fabric .
+     docker run -it -v $PWD:/app --rm -w /app unifab:0.1 fab bootstrap
+   #+END_SRC
+
+** Try to access the API
+
+   Now, try to access the API with a course
+
+   #+BEGIN_SRC shell :results output
+     curl -i -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' http://46.101.162.201/api/course/
+   #+END_SRC
+
+   If you are using Emacs orgmode restclient and reading this documentation from orgmode.
+   Here is a src block for you:
+
+  #+BEGIN_SRC restclient
+    GET http://46.101.162.201/api/course/
+    User-Agent: Emacs Restclient
+    Content-Type: application/json
+
+    {
+        "course": "2DV50E"
+    }
   #+END_SRC
 
-  #+RESULTS:
-  :             "SecondaryIPAddresses": null,
-  :             "IPAddress": "",
-  :                     "IPAddress": "172.21.0.3",
+** Manual SSH with root user.
 
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    \dt+
-  #+END_SRC
+   This will log you in to the server with the =deploy= user.
 
-  #+RESULTS:
-  | List of relations |                            |       |          |            |             |
-  |-------------------+----------------------------+-------+----------+------------+-------------|
-  | Schema            | Name                       | Type  | Owner    | Size       | Description |
-  | public            | auth_group                 | table | postgres | 0 bytes    |             |
-  | public            | auth_group_permissions     | table | postgres | 0 bytes    |             |
-  | public            | auth_permission            | table | postgres | 8192 bytes |             |
-  | public            | auth_user                  | table | postgres | 8192 bytes |             |
-  | public            | auth_user_groups           | table | postgres | 0 bytes    |             |
-  | public            | auth_user_user_permissions | table | postgres | 0 bytes    |             |
-  | public            | django_admin_log           | table | postgres | 8192 bytes |             |
-  | public            | django_content_type        | table | postgres | 8192 bytes |             |
-  | public            | django_migrations          | table | postgres | 16 kB      |             |
-  | public            | django_session             | table | postgres | 8192 bytes |             |
-  | public            | unitime_course             | table | postgres | 56 kB      |             |
-  | public            | unitime_coursecode         | table | postgres | 8192 bytes |             |
-  | public            | unitime_courseoffering     | table | postgres | 64 kB      |             |
-  | public            | unitime_lecture            | table | postgres | 224 kB     |             |
-  | public            | unitime_room               | table | postgres | 72 kB      |             |
+   #+BEGIN_SRC sh
+     cd <PROJECT>
+     ssh -i secrets/unitime-deploy-user deploy@46.101.162.201
+   #+END_SRC
 
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    \d unitime_course
-  #+END_SRC
+** Manual SSH with deploy user.
 
+   This will log you in to the server with the =root= user. You find the password in
+   =secrets/inventory=. The default is: =SERVERROOTPASSWORD=
 
-  #+RESULTS:
-  | Table "public.unitime_course"                                                                                                                                                                  |                          |           |          |                                            |
-  |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+--------------------------+-----------+----------+--------------------------------------------|
-  | Column                                                                                                                                                                                         | Type                     | Collation | Nullable | Default                                    |
-  | id                                                                                                                                                                                             | integer                  |           | not null | nextval('unitime_course_id_seq'::regclass) |
-  | created                                                                                                                                                                                        | timestamp with time zone |           | not null |                                            |
-  | modified                                                                                                                                                                                       | timestamp with time zone |           | not null |                                            |
-  | code                                                                                                                                                                                           | character varying(6)     |           | not null |                                            |
-  | name                                                                                                                                                                                           | character varying(254)   |           | not null |                                            |
-  | speed                                                                                                                                                                                          | character varying(20)    |           | not null |                                            |
-  | points                                                                                                                                                                                         | character varying(20)    |           | not null |                                            |
-  | syllabus                                                                                                                                                                                       | character varying(254)   |           | not null |                                            |
-  | Indexes:                                                                                                                                                                                       |                          |           |          |                                            |
-  | "unitime_course_pkey" PRIMARY KEY, btree (id)                                                                                                                                                  |                          |           |          |                                            |
-  | Referenced by:                                                                                                                                                                                 |                          |           |          |                                            |
-  | TABLE "unitime_courseoffering" CONSTRAINT "unitime_courseoffering_course_id_303916d0_fk_unitime_course_id" FOREIGN KEY (course_id) REFERENCES unitime_course(id) DEFERRABLE INITIALLY DEFERRED |                          |           |          |                                            |
-  | TABLE "unitime_lecture" CONSTRAINT "unitime_lecture_course_id_6ddd41c6_fk_unitime_course_id" FOREIGN KEY (course_id) REFERENCES unitime_course(id) DEFERRABLE INITIALLY DEFERRED               |                          |           |          |                                            |
+   #+BEGIN_SRC sh
+     ssh root@46.101.162.201
+   #+END_SRC
 
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.2 :dbuser postgres :database postgres
-    \d unitime_lecture
-  #+END_SRC
+* TODOs:
 
-  #+RESULTS:
-
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    -- SELECT * FROM unitime_course WHERE code='2DV50E';
-    -- DROP TABLE IF EXISTS unitime_lecture CASCADE;
-  #+END_SRC
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.4 :dbuser postgres :database postgres
-    SELECT * FROM unitime_lecture WHERE unitime_lecture.course_id IN (SELECT id FROM unitime_course WHERE code='2DV50E');
-  #+END_SRC
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    -- SELECT * FROM unitime_lecture WHERE unitime_lecture.course_id IN (SELECT id FROM unitime_course WHERE code='2DV50E') ORDER BY start_datetime;
-    SELECT * FROM unitime_course WHERE code='1PE502';
-  #+END_SRC
-
-  #+RESULTS:
-  | id | created | modified | code | name | speed | points | syllabus |
-  |----+---------+----------+------+------+-------+--------+----------|
-
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    -- SELECT * FROM unitime_lecture WHERE unitime_lecture.course_id IN (SELECT id FROM unitime_course WHERE code='2DV50E') ORDER BY start_datetime;
-    SELECT * FROM unitime_lecture WHERE unitime_lecture.course_id IN (SELECT id FROM unitime_course WHERE code='1PE503') ORDER BY start_datetime;
-  #+END_SRC
-
-  #+RESULTS:
-  | id | created | modified | start_datetime | end_datetime | teacher | description | course_id | course_offering_id | info | room_id |
-  |----+---------+----------+----------------+--------------+---------+-------------+-----------+--------------------+------+---------|
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    SELECT * FROM unitime_lecture;
-  #+END_SRC
-
-  #+RESULTS:
-  | id | created | modified | start_datetime | end_datetime | teacher | description | course_id | course_offering_id | info |
-  |----+---------+----------+----------------+--------------+---------+-------------+-----------+--------------------+------|
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    SELECT count(*) FROM unitime_course;
-  #+END_SRC
-
-  #+RESULTS:
-  | count |
-  |-------|
-  |  1657 |
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    SELECT count(*) FROM unitime_courseoffering;
-  #+END_SRC
-
-  #+RESULTS:
-  | count |
-  |-------|
-  |  2045 |
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.3 :dbuser postgres :database postgres
-    SELECT count(*) FROM unitime_lecture;
-  #+END_SRC
-
-  #+RESULTS:
-  | count |
-  |-------|
-  | 13058 |
-
-  #+BEGIN_SRC sql :engine postgresql :dbhost 172.21.0.4 :dbuser postgres :database postgres
-    SELECT count(*) FROM unitime_room;
-  #+END_SRC
-
-  #+RESULTS:
-  | count |
-  |-------|
-  |   524 |
-
-  #+BEGIN_SRC shell
-    python manage.py makemigrations
-    python manage.py migrate
-    time python manage.py shell <<EOF
-    from unitime.tasks import get_courses_from_file, get_rooms_from_remote
-    from unitime.tasks import get_courses_to_db, get_course_offerings_to_db
-    from unitime.tasks import get_all_lectures
-    get_courses_from_file()
-    get_rooms_from_remote()
-    get_courses_to_db()
-    get_course_offerings_to_db()
-    get_all_lectures()
-    EOF
-  #+END_SRC
-
-* Initial handson stuff
-
-  This is needed to do in the beginning. This will create the database layout and a
-  superuser and import course codes.
-
-  #+BEGIN_SRC shell
-    python manage.py makemigrations
-    python manage.py migrate
-    python manage.py shell <<EOF
-    from unitime.tasks import get_rooms_from_remote, get_courses_to_db
-    from unitime.tasks import get_course_offerings_to_db, get_all_lectures
-    get_rooms_from_remote()
-    get_courses_to_db()
-    get_course_offerings_to_db()
-    get_all_lectures()
-    EOF
-  #+END_SRC
-
-  TODO: write custom manage.py commands for this: https://docs.djangoproject.com/en/2.0/howto/custom-management-commands/
-
-* Database model
-
-  E/R diagram for the database.
-
-
-  [[./project/unitime-api-er-diagram.png]]
-
-
-* Room
-
-  N2037, is found 2 times
-  N2037	  2	56.853519	14.832632
-  N2037	  2	56.668678	16.350328
+  - [ ] Server NTP time, Ansible
+  - [ ] SSL/TLS, Ansible
+  - [ ] Unattended updates, Ansible
