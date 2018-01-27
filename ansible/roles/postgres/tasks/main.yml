@@ -24,3 +24,22 @@
     password: "{{ postgres.pass }}"
     role_attr_flags: CREATEDB,NOSUPERUSER
     state: present
+
+- name: Create Unitime database
+  become: true
+  become_user: postgres
+  become_method: sudo
+  postgresql_db:
+    name: "{{ postgres.db }}"
+    encoding: UTF-8
+
+- name: Grant all privileges on Unitime
+  become: true
+  become_user: postgres
+  become_method: sudo
+  postgresql_privs:
+    db: postgres
+    privs: ALL
+    type: database
+    obj: "{{ postgres.db }}"
+    role: "{{ postgres.user }}"

@@ -1,3 +1,4 @@
+ansible/main.retry
 secrets/
 .cache/
 venv/
