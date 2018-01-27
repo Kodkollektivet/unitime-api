@@ -40,7 +40,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    command: ./run_celery.sh
+    command: bash -c "sleep 10 && celery -A settings worker -l info -B"
     volumes:
       - .:/app
     links:
@@ -48,4 +48,6 @@ services:
       - celrabbit
       - celredis
     depends_on:
+      - celdb
       - celrabbit
+      - celredis
