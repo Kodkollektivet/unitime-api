@@ -1,11 +1,25 @@
 #+TITLE: Unitime API 2.0
 #+AUTHOR: John Herrlin
 
-* Unitime 2.0
+This is the new Unitime 2.0 branch.
 
-  This is the new Unitime 2.0 branch.
+Work is in progress, but it is getting pretty stable i think.
 
-  Work is in progress, but it is getting pretty stable i think.
+* Try it live
+
+  Course:
+
+  #+BEGIN_SRC shell :results output
+    curl -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
+      http://unitime.jherrlin.se/api/course/ | python -mjson.tool
+  #+END_SRC
+
+  Lectures:
+
+  #+BEGIN_SRC shell :results output
+    curl -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
+      http://unitime.jherrlin.se/api/lectures/ | python -mjson.tool
+  #+END_SRC
 
 * Local development environment
 
@@ -166,7 +180,7 @@
     }
   #+END_SRC
 
-** Manual SSH with root user.
+** Manual SSH with deploy user.
 
    This will log you in to the server with the =deploy= user.
 
@@ -175,7 +189,7 @@
      ssh -i secrets/unitime-deploy-user deploy@46.101.162.201
    #+END_SRC
 
-** Manual SSH with deploy user.
+** Manual SSH with root user.
 
    This will log you in to the server with the =root= user. You find the password in
    =secrets/inventory=. The default is: =SERVERROOTPASSWORD=
