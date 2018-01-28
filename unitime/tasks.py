@@ -25,7 +25,7 @@ def update(course_code):
         Lecture.update_remote(course)
         return True
     except Exception as e:
-        print(e)
+        log.debug(e)
         return False
 
 
@@ -35,12 +35,15 @@ def get_courses_from_file():
     log.debug('Importing course codes from file.')
     with open(settings.BASE_DIR+'/course_codes.txt') as f:
         for line in f:
-            course = line
-            course = re.sub('\n', '', course)
-            form = CourseCodeForm({'course': course})
-            if form.is_valid():
-                c = form.cleaned_data['course']
-                CourseCode.objects.update_or_create(course_code=c)
+            try:
+                course = line
+                course = re.sub('\n', '', course)
+                form = CourseCodeForm({'course': course})
+                if form.is_valid():
+                    c = form.cleaned_data['course']
+                    CourseCode.objects.update_or_create(course_code=c)
+            except Exception as e:
+                log.debug(e)
 
 
 @shared_task
@@ -51,9 +54,7 @@ def daily_update():
     log.debug('Starting daily update.')
     start_time = time.time()
     Room.update_remote()
-
-    if len(CourseCode.objects.all()) == 0:
-        get_courses_from_file()
+    get_courses_from_file()
 
     for course_code in CourseCode.objects.all():
         Course.update_remote(course_code.course_code)
