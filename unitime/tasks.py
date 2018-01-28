@@ -31,12 +31,16 @@ def update(course_code):
 
 def get_courses_from_file():
     from unitime.models import CourseCode
+    from unitime.forms import CourseCodeForm
     log.debug('Importing course codes from file.')
     with open(settings.BASE_DIR+'/course_codes.txt') as f:
         for line in f:
             course = line
             course = re.sub('\n', '', course)
-            CourseCode.objects.update_or_create(course_code=course)
+            form = CourseCodeForm({'course': course})
+            if form.is_valid():
+                c = form.cleaned_data['course']
+                CourseCode.objects.update_or_create(course_code=c)
 
 
 @shared_task
