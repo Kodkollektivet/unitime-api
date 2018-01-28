@@ -1,6 +1,8 @@
 #+TITLE: Unitime API 2.0
 #+AUTHOR: John Herrlin
 
+[[https://travis-ci.org/Kodkollektivet/unitime-api][https://travis-ci.org/Kodkollektivet/unitime-api.svg?branch=celery-docker]]
+
 This is the new Unitime 2.0 branch.
 
 Work is in progress, but it is getting pretty stable i think.
@@ -34,7 +36,7 @@ Work is in progress, but it is getting pretty stable i think.
 * Unitime endpoints and usage
 
   #+BEGIN_SRC restclient
-    GET http://localhost:8000/api/course/
+    POST http://localhost:8000/api/course/
     User-Agent: Emacs Restclient
     Content-Type: application/json
 
@@ -54,7 +56,7 @@ Work is in progress, but it is getting pretty stable i think.
   #+END_SRC
 
   #+BEGIN_SRC restclient
-    GET http://localhost:8000/api/lectures/
+    POST http://localhost:8000/api/lectures/
     User-Agent: Emacs Restclient
     Content-Type: application/json
 

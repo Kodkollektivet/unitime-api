@@ -127,6 +127,11 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 
 
+REST_FRAMEWORK = {
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json'
+}
+
+
 # Celery
 CELERY_BROKER_URL = 'amqp://admin:mypass@celrabbit/'
 CELERY_RESULT_BACKEND = 'redis://celredis:6379/0'

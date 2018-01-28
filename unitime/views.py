@@ -25,7 +25,7 @@ def get_course(course_code):
 
 
 class LecturesView(APIView):
-    def get(self, request):
+    def post(self, request):
         form = CourseCodeForm(request.data)
         if form.is_valid():
             course_code = form.cleaned_data['course']
@@ -47,7 +47,7 @@ class LecturesView(APIView):
 
 
 class CourseView(APIView):
-    def get(self, request):
+    def post(self, request):
         form = CourseCodeForm(request.data)
         if form.is_valid():
             course_code = form.cleaned_data['course']
