@@ -20,6 +20,8 @@ def bootstrap():
     run('mkdir -p /srv/unitime/backups')
     run('mkdir -p /srv/unitime/repo')
     run('mkdir -p /srv/unitime/tmp')
+    run('mkdir -p /srv/unitime/public/static')
+    run('mkdir -p /srv/unitime/public/media')
 
     put('secrets', '/srv/unitime/')
 
@@ -37,11 +39,12 @@ def bootstrap():
         run('cp -f secrets/production.json current/settings/production.json')
 
     with cd('/srv/unitime/current'):
-        run('find . -type f -exec sed -i.bak "s/settings.settings/settings.production/g" {} \;')
+        run('find . -type f -exec sed -i "s/settings.settings/settings.production/g" {} \;')
 
     with cd('/srv/unitime/current'):
         run('../venv/bin/python manage.py makemigrations')
         run('../venv/bin/python manage.py migrate')
+        run('../venv/bin/python manage.py collectstatic --noinput')
 
     run('sudo /bin/systemctl enable unitime-celery.service')
     run('sudo /bin/systemctl enable unitime.service')
