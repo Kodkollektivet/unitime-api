@@ -11,14 +11,14 @@ Work is in progress, but it is getting pretty stable i think.
 
   #+BEGIN_SRC shell :results output
     curl -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
-      http://unitime.jherrlin.se/api/course/ | python -mjson.tool
+      https://unitime.jherrlin.se/api/course/ | python -mjson.tool
   #+END_SRC
 
   Lectures:
 
   #+BEGIN_SRC shell :results output
     curl -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
-      http://unitime.jherrlin.se/api/lectures/ | python -mjson.tool
+      https://unitime.jherrlin.se/api/lectures/ | python -mjson.tool
   #+END_SRC
 
 * Local development environment
@@ -203,3 +203,4 @@ Work is in progress, but it is getting pretty stable i think.
   - [ ] Server NTP time, Ansible
   - [ ] SSL/TLS, Ansible
   - [ ] Unattended updates, Ansible
+  - [ ] iptables, Ansible
