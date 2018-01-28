@@ -1,0 +1,94 @@
+---
+#
+# Let's encrypt
+#
+
+- name: Remove unitime http nginx config
+  file:
+    path: /etc/nginx/sites-enabled/unitime-http
+    state: absent
+
+
+- name: Install letsencrypt
+  apt: name=letsencrypt state=latest
+
+
+- name: Create letsencrypt directory
+  file: name=/var/www/letsencrypt state=directory
+
+
+- name: Create nginx snippets directory
+  file: name=/etc/nginx/snippets/ state=directory
+
+
+- name: Copy letsencrypt ini file
+  template:
+    src: cli.ini.j2
+    dest: /etc/letsencrypt/cli.ini
+
+
+- name: Copy nginx unitime certs snippet
+  template:
+    src: unitime-certs.conf.j2
+    dest: /etc/nginx/snippets/unitime-certs.conf
+
+
+- name: Copy nginx unitime ssl params snippet
+  copy:
+    src: unitime-ssl-params.conf
+    dest: /etc/nginx/snippets/unitime-ssl-params.conf
+
+
+- name: Copy nginx well known snippet
+  copy:
+    src: well-known.conf
+    dest: /etc/nginx/snippets/well-known.conf
+
+
+- name: Copy unitime https template
+  template:
+    src: unitime-https.j2
+    dest: /etc/nginx/sites-available/unitime-https
+
+- name: Generate dhparams
+  shell: openssl dhparam -out /etc/nginx/dhparam.pem 2048
+
+
+- name: Copy config for letsencrypt requests
+  template:
+    src: templates/letsencrypt-http.j2
+    dest: /etc/nginx/sites-available/letsencrypt-http
+
+
+- name: Enable config for letsencrypt requests
+  file: src=/etc/nginx/sites-available/letsencrypt-http
+        dest=/etc/nginx/sites-enabled/letsencrypt-http
+        state=link
+  notify: Reload Nginx
+
+
+- name: Create letsencrypt certificate
+  shell: letsencrypt certonly
+
+
+- name: Remove letsencrypt http nginx config
+  file:
+    path: /etc/nginx/sites-enabled/letsencrypt-http
+    state: absent
+
+
+- name: Enable nginx unitime https
+  file: src=/etc/nginx/sites-available/unitime-https
+        dest=/etc/nginx/sites-enabled/unitime-https
+        state=link
+  notify: Reload Nginx
+
+
+- name: Add letsencrypt cronjob for cert renewal
+  cron:
+    name: letsencrypt_renewal
+    weekday: "1,4"
+    minute: 0
+    hour: 3
+    job: certbot renew
+  notify: Reload Nginx

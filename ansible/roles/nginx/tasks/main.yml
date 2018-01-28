@@ -20,12 +20,12 @@
 
 - name: Copy nginx unitime conf to sites-available
   copy:
-      src: unitime
-      dest: /etc/nginx/sites-available/unitime
+      src: unitime-http
+      dest: /etc/nginx/sites-available/unitime-http
 
 
 - name: Link unitime to sites-available
-  file: src=/etc/nginx/sites-available/unitime
-        dest=/etc/nginx/sites-enabled/unitime
+  file: src=/etc/nginx/sites-available/unitime-http
+        dest=/etc/nginx/sites-enabled/unitime-http
         state=link
   notify: Reload Nginx
