@@ -77,16 +77,25 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'HOST': 'celdb',
-        'PORT': 5432,
+env = os.getenv('PYTHON_ENV')
+if env == 'travis':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
 
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'postgres',
+            'USER': 'postgres',
+            'HOST': 'celdb',
+            'PORT': 5432,
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -133,12 +142,20 @@ REST_FRAMEWORK = {
 
 
 # Celery
-CELERY_BROKER_URL = 'amqp://admin:mypass@celrabbit/'
-CELERY_RESULT_BACKEND = 'redis://celredis:6379/0'
+env = os.getenv('PYTHON_ENV')
+if env == 'docker':
+    CELERY_BROKER_URL = 'amqp://admin:mypass@celrabbit/'
+    CELERY_RESULT_BACKEND = 'redis://celredis:6379/0'
+else:
+    CELERY_BROKER_URL = 'amqp://localhost'
+    CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+
+
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Europe/Stockholm'
+# CELERY_ALWAYS_EAGER = True  # Debug
 
 CELERY_IMPORTS = (
     'unitime.tasks',
@@ -149,7 +166,7 @@ from celery.schedules import crontab
 CELERY_BEAT_SCHEDULE = {
     'task-number-one': {
         'task': 'unitime.tasks.daily_update',
-        'schedule': crontab(minute='10', hour='10', day_of_week='*')
+        'schedule': crontab(minute='01', hour='14', day_of_week='*')
         # time.now() - 1 hour to get the execution to start.
     },
 }

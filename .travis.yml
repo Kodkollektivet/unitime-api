@@ -1,5 +1,12 @@
 language: python
 
+services:
+  - redis
+  - rabbitmq
+
+env:
+  - PYTHON_ENV=travis
+
 python:
   - "3.4"
   - "3.5"
@@ -7,9 +14,11 @@ python:
 
 install:
   - pip install -r requirements.txt
-  - mkdir logs
   - python manage.py makemigrations
   - python manage.py migrate
+
+before_script:
+  - celery -A settings worker -l info -B &
 
 script:
   - python manage.py test

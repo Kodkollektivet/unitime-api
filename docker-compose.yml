@@ -35,11 +35,15 @@ services:
       - celredis
       - celdb
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - PYTHON_ENV=docker
   celworker:
     build:
       context: .
       dockerfile: Dockerfile
     command: bash -c "sleep 10 && celery -A settings worker -l info -B"
+    environment:
+      - PYTHON_ENV=docker
     volumes:
       - .:/app
     links:
