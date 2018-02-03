@@ -5,21 +5,21 @@
 
 This is the new Unitime 2.0 branch.
 
-Work is in progress, but it is getting pretty stable i think.
+It is still under development but it's getting stable.
 
 * Try it live
 
   Course:
 
   #+BEGIN_SRC shell :results output
-    curl -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
+    curl -X POST --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
       https://unitime.jherrlin.se/api/course/ | python -mjson.tool
   #+END_SRC
 
   Lectures:
 
   #+BEGIN_SRC shell :results output
-    curl -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
+    curl -X POST --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
       https://unitime.jherrlin.se/api/lectures/ | python -mjson.tool
   #+END_SRC
 
@@ -159,6 +159,25 @@ Work is in progress, but it is getting pretty stable i think.
    #+BEGIN_SRC sh
      docker build -t unifab:0.1 -f Dockerfile-fabric .
      docker run -it -v $PWD:/app --rm -w /app unifab:0.1 fab bootstrap
+   #+END_SRC
+
+** Update the application
+
+   To update the application use the following to update it by specifying a branch.
+
+   #+BEGIN_SRC sh
+     docker build -t unifab:0.1 -f Dockerfile-fabric .
+     docker run -it -v $PWD:/app --rm -w /app unifab:0.1 fab deploy:branch=celery-docker
+   #+END_SRC
+
+** Rollback when deploy fails
+
+   If a deploy fails you can do a rollback, this will rollback to the codebase that was
+   before the deploy. This wont handle database rollbacks!
+
+   #+BEGIN_SRC sh
+     docker build -t unifab:0.1 -f Dockerfile-fabric .
+     docker run -it -v $PWD:/app --rm -w /app unifab:0.1 fab rollback
    #+END_SRC
 
 ** Try to access the API
