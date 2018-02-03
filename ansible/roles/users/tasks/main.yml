@@ -9,6 +9,7 @@
       system: no
       state: present
 
+
 - name: Create "{{ unix.username }}"  user
   user:
       name: "{{ unix.username }}"
@@ -20,6 +21,7 @@
       system: no
       shell: /bin/bash
       state: present
+
 
 - name: Create SSH directory
   file:
@@ -39,15 +41,28 @@
       mode: "0400"
   register: result
 
+
 - name: Configure systemd permissions for {{ unix.unsername }}
   lineinfile:
     dest: /etc/sudoers
     line: "{{ item }}"
     state: present
-  with_items:  # This does not work
+  with_items:
     - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl enable unitime-celery.service"
     - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl enable unitime.service"
     - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl status unitime-celery.service"
     - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl status unitime.service"
     - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl restart unitime-celery.service"
     - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl restart unitime.service"
+
+
+- name: Create bashrc
+  lineinfile:
+    dest: "{{ unix.home }}/.profile"
+    line: "{{ item }}"
+    state: present
+    create: yes
+    owner: "{{ unix.username }}"
+    group: "{{ unix.username }}"
+  with_items:
+    - "export PYTHON_ENV={{ target }}"
