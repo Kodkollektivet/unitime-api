@@ -1,19 +1,19 @@
 version: '3'
 
 services:
-  celdb:
+  unidb:
     image: postgres
-    hostname: celdb
-    container_name: celdb
+    hostname: unidb
+    container_name: unidb
     # volumes:
     #   - ./pg-data:/var/lib/postgresql/data
-  celredis:
+  uniredis:
     image: redis:2.8.19
-    hostname: celredis
-    container_name: celredis
-  celrabbit:
-    container_name: celrabbit
-    hostname: celrabbit
+    hostname: uniredis
+    container_name: uniredis
+  unirabbit:
+    container_name: unirabbit
+    hostname: unirabbit
     image: rabbitmq:3.6.0
     environment:
       - RABBITMQ_DEFAULT_USER=admin
@@ -21,8 +21,8 @@ services:
     ports:
       - "5672:5672"  # we forward this port because it's useful for debugging
       - "15672:15672"  # here, we can access rabbitmq management plugin
-  celpython:
-    container_name: celpython
+  unipython:
+    container_name: unipython
     build: .
     stdin_open: true
     tty: true
@@ -31,13 +31,13 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - celrabbit
-      - celredis
-      - celdb
+      - unirabbit
+      - uniredis
+      - unidb
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     environment:
       - PYTHON_ENV=docker
-  celworker:
+  uniworker:
     build:
       context: .
       dockerfile: Dockerfile
@@ -47,10 +47,10 @@ services:
     volumes:
       - .:/app
     links:
-      - celdb
-      - celrabbit
-      - celredis
+      - unidb
+      - unirabbit
+      - uniredis
     depends_on:
-      - celdb
-      - celrabbit
-      - celredis
+      - unidb
+      - unirabbit
+      - uniredis

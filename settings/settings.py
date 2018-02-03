@@ -92,7 +92,7 @@ else:
             'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'postgres',
             'USER': 'postgres',
-            'HOST': 'celdb',
+            'HOST': 'unidb',
             'PORT': 5432,
         }
     }
@@ -144,8 +144,8 @@ REST_FRAMEWORK = {
 # Celery
 env = os.getenv('PYTHON_ENV')
 if env == 'docker':
-    CELERY_BROKER_URL = 'amqp://admin:mypass@celrabbit/'
-    CELERY_RESULT_BACKEND = 'redis://celredis:6379/0'
+    CELERY_BROKER_URL = 'amqp://admin:mypass@unirabbit/'
+    CELERY_RESULT_BACKEND = 'redis://uniredis:6379/0'
 else:
     CELERY_BROKER_URL = 'amqp://localhost'
     CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
