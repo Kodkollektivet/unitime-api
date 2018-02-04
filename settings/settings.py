@@ -166,7 +166,7 @@ from celery.schedules import crontab
 CELERY_BEAT_SCHEDULE = {
     'task-number-one': {
         'task': 'unitime.tasks.daily_update',
-        'schedule': crontab(minute='01', hour='14', day_of_week='*')
+        'schedule': crontab(minute='01', hour='05', day_of_week='*')
         # time.now() - 1 hour to get the execution to start.
     },
 }
