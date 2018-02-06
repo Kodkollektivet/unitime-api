@@ -10,7 +10,8 @@ from unitime.forms import CourseCodeForm
 from unitime.tasks import update
 
 
-def get_course(course_code):
+def get_course(course_code) -> Course:
+    """Returns a course object from the database"""
     counter = 0
     while True:
         try:
@@ -62,3 +63,10 @@ class CourseView(APIView):
             return HttpResponse(form.errors.as_json(),
                                 content_type='application/json',
                                 status=404)
+
+class CoursesView(APIView):
+    def get(self, request):
+        """Get request to return a list with all the courses"""
+        courses = Course.objects.all()
+        serializer = CourseSerializer(courses, many=True)
+        return JsonResponse(serializer.data, safe=False)

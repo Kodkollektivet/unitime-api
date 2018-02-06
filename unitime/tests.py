@@ -30,3 +30,12 @@ class TestLecturesEndpoint(APITestCase):
         factory = APIClient()
         response = factory.post('/api/lectures/', {'course': '2DV50E'}, format='json')
         self.assertTrue(response.status_code, 200)
+
+
+class TestCoursesEndpoint(APITestCase):
+    fixtures = ['unitime.json']
+
+    def test_courses_list_endpoint(self):
+        factory = APIClient()
+        response = factory.get('/api/courses/', format='json')
+        self.assertTrue(response.status_code, 200)

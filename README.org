@@ -23,6 +23,13 @@ It is still under development but it's getting stable.
       https://unitime.jherrlin.se/api/lectures/ | python -mjson.tool
   #+END_SRC
 
+  All courses in a list:
+
+  #+BEGIN_SRC shell :results output
+    curl -X GET --header 'Content-Type: application/json' \
+      https://unitime.jherrlin.se/api/courses/ | python -mjson.tool
+  #+END_SRC
+
 * Local development environment
 
   By default this project is running =Docker= and =docker-compose=.
@@ -93,6 +100,32 @@ It is still under development but it's getting stable.
         "lat": 1.203,
         "lon": 0.34530
       }
+    }
+  ]
+  #+END_SRC
+
+  #+BEGIN_SRC restclient
+    GET http://localhost:8000/api/courses/
+    User-Agent: Emacs Restclient
+    Content-Type: application/json
+  #+END_SRC
+
+  #+BEGIN_SRC js
+  [
+    {
+      "code": "5SP01E",
+      "name": "Master's Thesis in Spanish",
+      "speed": "50%",
+      "points": "30 hp",
+      "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=5SP01E&documenttype=pdf&lang=en"
+    },
+    ...
+    {
+      "code": "2SA606",
+      "name": "Vulnerability, conditions and interventions on individual, group and society level",
+      "speed": "100%",
+      "points": "15 hp",
+      "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=2SA606&documenttype=pdf&lang=en"
     }
   ]
   #+END_SRC
