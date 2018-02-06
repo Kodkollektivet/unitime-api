@@ -8,7 +8,7 @@ Group=deploy
 Restart=on-failure
 RestartSec=5
 WorkingDirectory=/srv/unitime/current
-ExecStart=/srv/unitime/venv/bin/celery  -A settings worker -l info -B
+ExecStart=/srv/unitime/current/venv/bin/celery  -A settings worker -l info -B
 
 [Install]
 WantedBy=multi-user.target
