@@ -6,6 +6,7 @@
   roles:
     - roles/users
     - roles/base
+    - roles/fail2ban
     - roles/nginx
     - roles/postgres
     - roles/redis

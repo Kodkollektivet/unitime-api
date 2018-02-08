@@ -1,0 +1,14 @@
+---
+#
+# Fail2ban
+# ban hosts that cause multiple authentication errors
+#
+
+- name: Install fail2ban
+  apt:
+    name: fail2ban
+    state: present
+
+
+- name: Start and enable fail2ban
+  service: name=fail2ban enabled=yes state=started
