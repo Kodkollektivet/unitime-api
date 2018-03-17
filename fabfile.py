@@ -26,6 +26,8 @@ def bootstrap(branch='celery-docker'):
     put('secrets', '/srv/unitime/')
 
     with cd('/srv/unitime/repo'):
+        run('git config --global user.email "John.Smith@example.com"')
+        run('git config --global user.name "John Smith"')
         run('git clone https://github.com/Kodkollektivet/unitime-api.git .')
         run('git checkout {}'.format(branch))
 
@@ -55,8 +57,11 @@ def deploy(branch='celery-docker'):
     put('secrets', '/srv/unitime/')
 
     with cd('/srv/unitime/repo'):
+        run('git config --global user.email "John.Smith@example.com"')
+        run('git config --global user.name "John Smith"')
         run('git fetch --all')
         run('git checkout {}'.format(branch))
+        run('git reset --hard origin/{}'.format(branch))
         run('git pull')
 
     with cd('/srv/unitime'):
