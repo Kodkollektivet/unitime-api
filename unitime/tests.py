@@ -22,6 +22,12 @@ class TestCourseEndpoint(APITestCase):
         response = factory.post('/api/course/', {'course': '2DV50E'}, format='json')
         self.assertTrue(response.status_code, 200)
 
+    def test_course_post_bad_code_404(self):
+        "The course code should not work and should return a 404"
+        factory = APIClient()
+        response = factory.post('/api/course/', {'course': 'HEJSAN'}, format='json')
+        self.assertTrue(response.status_code, 404)
+
 
 class TestLecturesEndpoint(APITestCase):
     fixtures = ['unitime.json']
@@ -30,6 +36,11 @@ class TestLecturesEndpoint(APITestCase):
         factory = APIClient()
         response = factory.post('/api/lectures/', {'course': '2DV50E'}, format='json')
         self.assertTrue(response.status_code, 200)
+
+    def test_lectures_post_bad_code_404(self):
+        factory = APIClient()
+        response = factory.post('/api/lectures/', {'course': 'HEJSAN'}, format='json')
+        self.assertTrue(response.status_code, 404)
 
 
 class TestCoursesEndpoint(APITestCase):

@@ -40,7 +40,7 @@ class LecturesView(APIView):
                 serializer = LectureSerializer(lectures, many=True)
                 return JsonResponse(serializer.data, safe=False)
             else:
-                return HttpResponse('Course doesnt exists.')
+                return HttpResponse('Course doesnt exists.', status=404)
         else:
             return HttpResponse(form.errors.as_json(),
                                 content_type='application/json',
@@ -58,7 +58,7 @@ class CourseView(APIView):
                 serializer = CourseSerializer(course, many=False)
                 return JsonResponse(serializer.data, safe=False)
             else:
-                return HttpResponse('Course not found')
+                return HttpResponse('Course not found', status=404)
         else:
             return HttpResponse(form.errors.as_json(),
                                 content_type='application/json',
