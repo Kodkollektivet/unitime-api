@@ -52,7 +52,7 @@ def bootstrap(branch='celery-docker'):
 
 def deploy(branch='celery-docker'):
     with cd('/srv/unitime'):
-        run("tar -zcvf backups/\"unitime-$(date '+%Y-%m-%d-%k-%M')-$(cd repo && git branch | grep \* | cut -d ' ' -f2).tar.gz\" current")
+        run("tar -zcvf backups/\"unitime-$(date '+%Y-%m-%d-%H-%M')-$(cd repo && git branch | grep \* | cut -d ' ' -f2).tar.gz\" current")
 
     put('secrets', '/srv/unitime/')
 
