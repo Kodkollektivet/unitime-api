@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  unidb:
+    image: postgres
+    hostname: unidb
+    container_name: unidb
+    # volumes:
+    #   - ./pg-data:/var/lib/postgresql/data
+  uniredis:
+    image: redis
+    hostname: uniredis
+    container_name: uniredis
+  unirabbit:
+    container_name: unirabbit
+    hostname: unirabbit
+    image: rabbitmq:3.6.0
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+    ports:
+      - "5672:5672"  # we forward this port because it's useful for debugging
+      - "15672:15672"  # here, we can access rabbitmq management plugin
+  unipython:
+    container_name: unipython
+    build: .
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - unirabbit
+      - uniredis
+      - unidb
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    environment:
+      - PYTHON_ENV=docker
+  uniworker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c "sleep 10 && celery -A settings worker -l info -B"
+    environment:
+      - PYTHON_ENV=docker
+    volumes:
+      - .:/app
+    links:
+      - unidb
+      - unirabbit
+      - uniredis
+    depends_on:
+      - unidb
+      - unirabbit
+      - uniredis

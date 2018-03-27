@@ -1,0 +1,7 @@
+[Unit]
+Description=Iptables service
+
+[Service]
+Nice=19
+IOSchedulingClass=3
+ExecStart=/bin/bash /root/start_iptables_script.sh

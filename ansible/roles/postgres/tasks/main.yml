@@ -1,0 +1,45 @@
+---
+#
+# Postgres
+#
+
+- name: Ensure apt cache is up to date
+  apt: update_cache=yes
+
+- name: Ensure postgres packages are installed
+  apt: name="{{ item }}" state=installed
+  with_items:
+      - postgresql
+      - libpq-dev
+      - postgresql-client
+      - postgresql-client-common
+      - python-psycopg2
+
+- name: Create user with create permissions
+  become: true
+  become_user: postgres
+  become_method: sudo
+  postgresql_user:
+    name: "{{ postgres.user }}"
+    password: "{{ postgres.pass }}"
+    role_attr_flags: CREATEDB,NOSUPERUSER
+    state: present
+
+- name: Create Unitime database
+  become: true
+  become_user: postgres
+  become_method: sudo
+  postgresql_db:
+    name: "{{ postgres.db }}"
+    encoding: UTF-8
+
+- name: Grant all privileges on Unitime
+  become: true
+  become_user: postgres
+  become_method: sudo
+  postgresql_privs:
+    db: postgres
+    privs: ALL
+    type: database
+    obj: "{{ postgres.db }}"
+    role: "{{ postgres.user }}"

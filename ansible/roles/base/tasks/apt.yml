@@ -1,0 +1,28 @@
+---
+#
+# Install upgrades and enable unattended upgrades.
+#
+
+- name: Upgrade Debian packages
+  apt: update_cache=yes upgrade=dist
+  register: results
+
+- name: Install Debian utilities
+  apt: "name={{ item }} state=present"
+  with_items:
+    - debconf-utils
+    - unattended-upgrades
+    - apt-listchanges
+    - bsd-mailx
+
+
+- name: Unattended updates config
+  copy:
+    src: 50unattended-upgrades
+    dest: /etc/apt/apt.conf.d/50unattended-upgrades
+
+
+- name: Auto upgrades
+  copy:
+    src: 20auto-upgrades
+    dest: /etc/apt/apt.conf.d/20auto-upgrades

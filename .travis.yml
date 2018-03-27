@@ -1,28 +1,24 @@
 language: python
 
+services:
+  - redis
+  - rabbitmq
+
+env:
+  - PYTHON_ENV=travis
+
 python:
   - "3.4"
   - "3.5"
   - "3.6"
 
 install:
-  - pip install -r requirements_dev.txt
-  - pip install -r requirements_prod.txt
-  - mkdir logs
-  - python unitime/manage.py makemigrations
-  - python unitime/manage.py migrate
+  - pip install -r requirements.txt
+  - python manage.py makemigrations
+  - python manage.py migrate
+
+before_script:
+  - celery -A settings worker -l info -B &
 
 script:
-  - python unitime/manage.py test
-
-branches:
-  only:
-    - master
-
-notifications:
-  webhooks:
-    urls:
-      - https://ci.kodkollektivet.se/ljwhwlbwjhaumdernpmx/
-    on_success: always
-    on_failure: never
-    on_start: never
+  - python manage.py test

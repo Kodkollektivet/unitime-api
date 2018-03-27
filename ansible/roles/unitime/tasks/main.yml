@@ -1,0 +1,20 @@
+---
+#
+# Unitime Systemd files
+#
+
+
+- name: Unitime gunicorn systemd file
+  copy: src=unitime.service dest=/etc/systemd/system/unitime.service
+  notify: Reload systemd daemon
+
+- name: Unitime celery systemd file
+  copy: src=unitime-celery.service dest=/etc/systemd/system/unitime-celery.service
+  notify: Reload systemd daemon
+
+- name: Create Unitime folder and set permissions
+  file:
+    path: /srv/unitime
+    state: directory
+    owner: "{{ unix.username }}"
+    group: "{{ unix.username }}"

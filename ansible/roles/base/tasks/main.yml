@@ -1,0 +1,19 @@
+---
+#
+# Basic system services
+#
+
+- name: Configure package manager
+  import_tasks: apt.yml
+
+- name: Configure time
+  import_tasks: time.yml
+
+- name: Configure utilities
+  import_tasks: util.yml
+
+- name: Configure Git access
+  import_tasks: git.yml
+
+- name: Iptables stuff
+  import_tasks: iptables.yml

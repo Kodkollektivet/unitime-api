@@ -1,0 +1,14 @@
+[Unit]
+Description=Unitime gunicorn daemon
+After=network.target
+
+[Service]
+User=deploy
+Group=deploy
+Restart=on-failure
+RestartSec=5
+WorkingDirectory=/srv/unitime/current
+ExecStart=/srv/unitime/current/venv/bin/gunicorn --workers 4 --bind unix:/srv/unitime/tmp/unitime.sock settings.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

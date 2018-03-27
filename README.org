@@ -1,231 +1,260 @@
-#+TITLE: unitime
+#+TITLE: Unitime API 2.0
 #+AUTHOR: John Herrlin
-#+EMAIL: jherrlin@gmail.com
-#+DATE: <2017-01-04 Wed>
 
-[[https://travis-ci.org/Kodkollektivet/unitime-api][https://travis-ci.org/Kodkollektivet/unitime-api.svg?branch=master]]
+[[https://travis-ci.org/Kodkollektivet/unitime-api][https://travis-ci.org/Kodkollektivet/unitime-api.svg?branch=celery-docker]]
 
-This project depends on: [[https://github.com/jherrlin/timeedit-lnu-api][timeedit-lnu-api]]
+This is the new Unitime 2.0 branch.
 
-* Documentation
+It is still under development but it's getting stable.
 
-  There Alamon API service is implemented but maybe not very good, you can find it here:
-  https://api.kodkollektivet.se/docs/
+* Try it live
 
-* Endpoints
+  Course:
 
-In the examples below I am using python and a third-party lib called [[http://docs.python-requests.org/en/master/][requests]].
-
-** Course
-
-   To get all of the courses we make a *GET* request to *https://api.kodkollektivet.se/api/course/*.
-   This will give us a huge list with information about the courses.
-
-   #+BEGIN_SRC python
-     >>> import requests
-     >>> from pprint import pprint as pp
-     >>> req = requests.get('https://api.kodkollektivet.se/api/course/')
-     >>> pp(req.json())
-     [{'course_code': '0LA011',
-       'course_id': '276323',
-       'course_language': 'Svenska',
-       'course_location': 'Växjö',
-       'course_points': '7,5 hp',
-       'course_reg': '57847',
-       'course_speed': '25%',
-       'name_en': 'Latin, beginners´ course I',
-       'name_sv': 'Latin, nybörjarkurs I',
-       'semester': 'VT17',
-       'syllabus_en': 'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=0LA011&documenttype=pdf&lang=en',
-       'syllabus_sv': 'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=0LA011&documenttype=pdf&lang=sv',
-       'url': 'https://lnu.se/kurs/0LA011'},
-      ...
-      {'course_code': '1DV701',
-       'course_id': '268260',
-       'course_language': 'Engelska',
-       'course_location': 'Växjö',
-       'course_points': '7,5 hp',
-       'course_reg': '69016',
-       'course_speed': '50%',
-       'name_en': 'Computer Networks - an introduction',
-       'name_sv': 'Datornät - introduktion',
-       'semester': 'VT17',
-       'syllabus_en': 'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=1DV701&documenttype=pdf&lang=en',
-       'syllabus_sv': 'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=1DV701&documenttype=pdf&lang=sv',
-       'url': 'https://lnu.se/kurs/1DV701'}]
-   #+END_SRC
-
-   Get a single course object.
-   We use a *GET* request to *https://api.kodkollektivet.se/api/course/<COURSE CODE>/*
-   In the response we get a single course object.
-
-   #+BEGIN_SRC python
-     >>> import requests
-     >>> from pprint import pprint as pp
-     >>> req = requests.get('https://api.kodkollektivet.se/api/course/1dv701/')
-     >>> pp(req.json())
-     {'course_code': '1DV701',
-      'course_id': '268260',
-      'course_language': 'Engelska',
-      'course_location': 'Växjö',
-      'course_points': '7,5 hp',
-      'course_reg': '69016',
-      'course_speed': '50%',
-      'name_en': 'Computer Networks - an introduction',
-      'name_sv': 'Datornät - introduktion',
-      'semester': 'VT17',
-      'syllabus_en': 'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=1DV701&documenttype=pdf&lang=en',
-      'syllabus_sv': 'http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=1DV701&documenttype=pdf&lang=sv',
-      'url': 'https://lnu.se/kurs/1DV701'}
-   #+END_SRC
-
-   To know the amount of courses that we have in the database we can do
-   a *HEAD* request to *https://api.kodkollektivet.se/api/course/*.
-   In the header we the get the amount in *Content-Length*.
-
-   #+BEGIN_SRC python
-     >>> import requests
-     >>> req = requests.head('https://api.kodkollektivet.se/api/course/')
-     >>> req.headers['Content-Length']
-     '2020'
-   #+END_SRC
-
-** Events/Schedule
-
-   Get a list of events/schedule for a course.
-   We use a *GET* request to *https://api.kodkollektivet.se/api/event/<COURSE CODE>/*
-   In the response we get a list of event objects.
-
-   #+BEGIN_SRC python
-     >>> import requests
-     >>> from pprint import pprint as pp
-     >>> req = requests.get('https://api.kodkollektivet.se/api/event/1dv701/')
-     >>> pp(req.json())
-     [{'desc': '',
-       'endtime': '17:00',
-       'info': 'Course start',
-       'room': 'D1136A_V',
-       'startdate': '2017-01-17',
-       'starttime': '15:15',
-       'teacher': 'Morgan Ericsson, Ola Flygt'},
-      {'desc': '',
-       'endtime': '12:00',
-       'info': 'Lecture',
-       'room': 'D1136A_V',
-       'startdate': '2017-01-19',
-       'starttime': '10:15',
-       'teacher': 'Morgan Ericsson'},
-      {'desc': '',
-       'endtime': '12:00',
-       'info': 'Information, Laboratory lesson',
-       'room': 'Newton_V',
-       'startdate': '2017-01-23',
-       'starttime': '10:15',
-       'teacher': 'Stepan Shevtsov'}]
-   #+END_SRC
-
-   We can also use a *POST* request to get events for multiple courses.
-   We then get a list with objects. The objects contains one key with the
-   course code and the other key contains a list with events.
-
-   #+BEGIN_SRC python
-     >>> import requests
-     >>> from pprint import pprint as pp
-     >>> req = requests.post('https://api.kodkollektivet.se/api/event/', data={'courses': ['1dv507', '1dv702']})
-     >>> pp(req.json())
-     [{'course': '1dv507',
-       'events': [{'desc': '',
-                   'endtime': '10:00',
-                   'info': 'Course start',
-                   'room': 'D1136A_V',
-                   'startdate': '2017-01-16',
-                   'starttime': '08:15',
-                   'teacher': 'Jonas Lundberg'},
-                  {'desc': '',
-                   'endtime': '17:00',
-                   'info': 'Laboratory lesson',
-                   'room': 'Datorsal D1142V (PC), Datorsal D1170A_V',
-                   'startdate': '2017-03-13',
-                   'starttime': '15:15',
-                   'teacher': 'Amanuens 2'}]},
-      {'course': '1dv702',
-       'events': [{'desc': '',
-                   'endtime': '12:00',
-                   'info': 'Course start',
-                   'room': 'D1173A_V',
-                   'startdate': '2017-03-20',
-                   'starttime': '10:15',
-                   'teacher': 'Gästlärare FTK, Ola Flygt'},
-                  {'desc': '',
-                   'endtime': '15:00',
-                   'info': 'Lecture',
-                   'room': 'D1167V',
-                   'startdate': '2017-05-31',
-                   'starttime': '13:15',
-                   'teacher': 'Gästlärare FTK'}]}]
-   #+END_SRC
-
-** Rooms
-
-   Look an event object in the section above.
-   The rooms can look strange, like *Datorsal D1142V (PC), Datorsal D1170A_V* and
-   *D1167V*. We can send that string directly to the API and it will sort it
-   out.
-   We need to do a *POST* request to *https://api.kodkollektivet.se/api/room/*
-   with the data ={'room': '<ROOM STRING>'}=.
-   In the response we get a list of rooms the API found.
-   In the example below there are 2 rooms.
-
-   #+BEGIN_SRC python
-     >>> import requests
-     >>> from pprint import pprint as pp
-     >>> req = requests.post('https://api.kodkollektivet.se/api/room/', data={'room': 'Datorsal D1142V (PC), Datorsal D1170A_V'})
-     >>> pp(req.json())
-     [{'city': 'Växjö',
-       'floor': 1,
-       'lat': 56.855726,
-       'lon': 14.828432,
-       'name': 'D1142V'},
-      {'city': 'Växjö',
-       'floor': 1,
-       'lat': 56.855845,
-       'lon': 14.82878,
-       'name': 'D1170'}]
-   #+END_SRC
-
-   In this request the room string only contains one room.
-   And in the response list we only get one room.
-
-   #+BEGIN_SRC python
-          >>> import requests
-          >>> from pprint import pprint as pp
-          >>> req = requests.post('https://api.kodkollektivet.se/api/room/', data={'room': 'D1167V'})
-          >>> pp(req.json())
-          [{'city': 'Växjö',
-            'floor': 1,
-            'lat': 56.855651,
-            'lon': 14.828812,
-            'name': 'D1167V'}]
-   #+END_SRC
-
-* Setup development environment
-
-  Navigate into the project base dir and run the following commands. After running
-  =runserver= you can access the api at http://127.0.0.1:8000/api/.
-  Docs are located at http://127.0.0.1:8000/docs/.
-
-  #+BEGIN_SRC sh
-    mkdir logs
-    pip install -r requirements_dev.txt
-    cd unitime
-    python manage.py makemigrations
-    python manage.py migrate
-    python manage.py createsuperuser
-    python manage.py runserver
+  #+BEGIN_SRC shell :results output
+    curl -X POST --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
+      https://unitime.jherrlin.se/api/course/ | python -mjson.tool
   #+END_SRC
 
-  Run tests. The database needs to be in place before the tests can run.
+  Lectures:
 
-  #+BEGIN_SRC sh
-    python unitime/manage.py test
+  #+BEGIN_SRC shell :results output
+    curl -X POST --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' \
+      https://unitime.jherrlin.se/api/lectures/ | python -mjson.tool
   #+END_SRC
+
+  All courses in a list:
+
+  #+BEGIN_SRC shell :results output
+    curl -X GET --header 'Content-Type: application/json' \
+      https://unitime.jherrlin.se/api/courses/ | python -mjson.tool
+  #+END_SRC
+
+* Local development environment
+
+  By default this project is running =Docker= and =docker-compose=.
+
+  To start the development environment, enter the project directory and run the following:
+
+  #+BEGIN_SRC shell
+    docker-compose up
+  #+END_SRC
+
+* Unitime endpoints and usage
+
+  #+BEGIN_SRC restclient
+    POST http://localhost:8000/api/course/
+    User-Agent: Emacs Restclient
+    Content-Type: application/json
+
+    {
+        "course": "2DV50E"
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC js
+  {
+    "code": "2DV50E",
+    "name": "Degree Project at Bachelor Level",
+    "speed": "50%",
+    "points": "15 hp",
+    "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=2DV50E&documenttype=pdf&lang=en"
+  }
+  #+END_SRC
+
+  #+BEGIN_SRC restclient
+    POST http://localhost:8000/api/lectures/
+    User-Agent: Emacs Restclient
+    Content-Type: application/json
+
+    {
+        "course": "2DV50E"
+    }
+  #+END_SRC
+
+  #+BEGIN_SRC js
+  [
+    {
+      "start_datetime": "2018-01-30T10:15:00",
+      "end_datetime": "2018-01-30T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": null,
+        "lat": null,
+        "lon": null
+      }
+    },
+    ...
+    {
+      "start_datetime": "2018-05-29T10:15:00",
+      "end_datetime": "2018-05-29T12:00:00",
+      "teacher": "Jesper Andersson",
+      "info": "Seminar",
+      "description": "",
+      "room": {
+        "name": "D1167",
+        "floor": 1,
+        "lat": 1.203,
+        "lon": 0.34530
+      }
+    }
+  ]
+  #+END_SRC
+
+  #+BEGIN_SRC restclient
+    GET http://localhost:8000/api/courses/
+    User-Agent: Emacs Restclient
+    Content-Type: application/json
+  #+END_SRC
+
+  #+BEGIN_SRC js
+  [
+    {
+      "code": "5SP01E",
+      "name": "Master's Thesis in Spanish",
+      "speed": "50%",
+      "points": "30 hp",
+      "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=5SP01E&documenttype=pdf&lang=en"
+    },
+    ...
+    {
+      "code": "2SA606",
+      "name": "Vulnerability, conditions and interventions on individual, group and society level",
+      "speed": "100%",
+      "points": "15 hp",
+      "syllabus": "http://api.kursinfo.lnu.se/GenerateDocument.ashx?templatetype=coursesyllabus&code=2SA606&documenttype=pdf&lang=en"
+    }
+  ]
+  #+END_SRC
+
+* Set up a new production server
+** Local environment
+
+   To be able to use the application or deploy it you need to have =Docker= and
+   =docker-compose=. This instrictions are only for GNU/Linux systems. If you use
+   something else I am sure there are ways to translate the instruction to you OS.
+
+** Start a new server
+
+   Start a new Debian (yes it must be Debian) server somewhere. I mostly use [[https://www.digitalocean.com/][digitalocean]].
+   Log in to the server first via SSH as it will ask you to set a new password for the
+   root user.
+
+** Clone this project
+
+   to your local machine.
+
+** Generate SSH key
+
+   Navigate to the secrets folder within the project directory. Take a look at the files
+   and what they contains. Generate a new SSH key. Move the public key to ansible users
+   filder. This key will be used for deploy. If it asks you to overwrite the existing
+   file, choose =y=. Dont enter a passphrase.
+
+   #+BEGIN_SRC
+     cd <PROJECTDIR>/secrets
+     ssh-keygen -t ed25519 -f unitime-deploy-user -C unitime-deploy-user
+     cp unitime-deploy-user.pub ../ansible/roles/users/files/authorized_keys
+   #+END_SRC
+
+** Update inventory
+
+   In =secrets/inventory= you shall now update some secrets.
+
+   Change the =ansible_ssh_host= variable to your servers IP.
+
+   Change the =ansible_ssh_pass= variable to your server root password account.
+
+   In =secrets/production.json= change:
+
+   =unix->password= to a new random password
+
+   =postgres->password= to a new random password
+
+** Configure the server
+
+   To configure the server run:
+
+   #+BEGIN_SRC sh
+     docker build -t unians:0.1 -f Dockerfile-ansible .
+     docker run -it -v $PWD:/app --rm -w /app/ansible unians:0.1 ansible-playbook -e @../secrets/production.json main.yml
+   #+END_SRC
+
+   If all things went fine (no red output).
+
+** Set up unitime application
+
+   This will apply the code from the project and start the services.
+
+   #+BEGIN_SRC sh
+     docker build -t unifab:0.1 -f Dockerfile-fabric .
+     docker run -it -v $PWD:/app --rm -w /app unifab:0.1 fab bootstrap
+   #+END_SRC
+
+** Update the application
+
+   To update the application use the following to update it by specifying a branch.
+
+   #+BEGIN_SRC sh
+     docker build -t unifab:0.1 -f Dockerfile-fabric .
+     docker run -it -v $PWD:/app --rm -w /app unifab:0.1 fab deploy:branch=celery-docker
+   #+END_SRC
+
+** Rollback when deploy fails
+
+   If a deploy fails you can do a rollback, this will rollback to the codebase that was
+   before the deploy. This wont handle database rollbacks!
+
+   #+BEGIN_SRC sh
+     docker build -t unifab:0.1 -f Dockerfile-fabric .
+     docker run -it -v $PWD:/app --rm -w /app unifab:0.1 fab rollback
+   #+END_SRC
+
+** Try to access the API
+
+   Now, try to access the API with a course
+
+   #+BEGIN_SRC shell :results output
+     curl -i -X GET --header 'Content-Type: application/json' --data '{"course": "2DV50E"}' http://46.101.162.201/api/course/
+   #+END_SRC
+
+   If you are using Emacs orgmode restclient and reading this documentation from orgmode.
+   Here is a src block for you:
+
+  #+BEGIN_SRC restclient
+    GET http://46.101.162.201/api/course/
+    User-Agent: Emacs Restclient
+    Content-Type: application/json
+
+    {
+        "course": "2DV50E"
+    }
+  #+END_SRC
+
+** Manual SSH with deploy user.
+
+   This will log you in to the server with the =deploy= user.
+
+   #+BEGIN_SRC sh
+     cd <PROJECT>
+     ssh -i secrets/unitime-deploy-user deploy@46.101.162.201
+   #+END_SRC
+
+** Manual SSH with root user.
+
+   This will log you in to the server with the =root= user. You find the password in
+   =secrets/inventory=. The default is: =SERVERROOTPASSWORD=
+
+   #+BEGIN_SRC sh
+     ssh root@46.101.162.201
+   #+END_SRC
+
+* TODOs:
+
+  - [ ] Server NTP time, Ansible
+  - [ ] SSL/TLS, Ansible
+  - [ ] Unattended updates, Ansible
+  - [ ] iptables, Ansible

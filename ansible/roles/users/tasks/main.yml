@@ -1,0 +1,68 @@
+---
+#
+# Configure users.
+#
+
+- name: Create "{{ unix.username }}" group
+  group:
+      name: "{{ unix.username }}"
+      system: no
+      state: present
+
+
+- name: Create "{{ unix.username }}"  user
+  user:
+      name: "{{ unix.username }}"
+      password: "{{ unix.password }}"
+      group: "{{ unix.username }}"
+      home: "{{ unix.home }}"
+      createhome: yes
+      skeleton: yes
+      system: no
+      shell: /bin/bash
+      state: present
+
+
+- name: Create SSH directory
+  file:
+      path: "{{ unix.home }}/.ssh"
+      owner: "{{ unix.username }}"
+      group: "{{ unix.username }}"
+      mode: "0500"
+      state: directory
+
+
+- name: Configure SSH private key
+  copy:
+      src: authorized_keys
+      dest: "{{ unix.home }}/.ssh/authorized_keys"
+      owner: "{{ unix.username }}"
+      group: "{{ unix.username }}"
+      mode: "0400"
+  register: result
+
+
+- name: Configure systemd permissions for {{ unix.unsername }}
+  lineinfile:
+    dest: /etc/sudoers
+    line: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl enable unitime-celery.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl enable unitime.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl status unitime-celery.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl status unitime.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl restart unitime-celery.service"
+    - "{{ unix.username }} ALL=NOPASSWD: /bin/systemctl restart unitime.service"
+
+
+- name: Create bashrc
+  lineinfile:
+    dest: "{{ unix.home }}/.profile"
+    line: "{{ item }}"
+    state: present
+    create: yes
+    owner: "{{ unix.username }}"
+    group: "{{ unix.username }}"
+  with_items:
+    - "export PYTHON_ENV={{ target }}"

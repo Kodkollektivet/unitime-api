@@ -1,0 +1,9 @@
+[Unit]
+Description=Run 1 min after boot
+Unit=start_iptables.service
+
+[Timer]
+OnBootSec=1min
+
+[Install]
+WantedBy=timers.target

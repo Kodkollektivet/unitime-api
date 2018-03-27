@@ -1,0 +1,37 @@
+server {
+    listen 80      default_server;
+    listen [::]:80 default_server;
+    server_name    {{ domain_name }};
+    return 301     https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+
+    server_name {{ domain_name }};
+
+    include snippets/unitime-certs.conf;
+    include snippets/unitime-ssl-params.conf;
+    include snippets/well-known.conf;
+
+    # The rest of your server block
+    # root /usr/share/nginx/html;
+    # index index.html index.htm;
+    location / {
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_pass http://unix:/srv/unitime/tmp/unitime.sock;
+    }
+
+    location /static/ {
+        root /srv/unitime/public;
+        autoindex off;
+    }
+
+    location /media/ {
+        root /srv/unitime/public;
+        autoindex off;
+    }
+}

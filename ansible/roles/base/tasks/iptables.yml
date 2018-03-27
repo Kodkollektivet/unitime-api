@@ -1,0 +1,35 @@
+---
+#
+# iptables related stuff
+# This could maybe be done better
+# Now there is a script a systemd service
+# and a systemd timer
+
+
+- name: Copy start_iptables service
+  copy:
+    src: start_iptables.service
+    dest: /etc/systemd/system/start_iptables.service
+
+
+- name: Copy start_iptables timer
+  copy:
+    src: start_iptables.timer
+    dest: /etc/systemd/system/start_iptables.timer
+
+
+- name: Copy start_iptables script
+  copy:
+    src: start_iptables_script.sh
+    dest: /root/start_iptables_script.sh
+
+
+- name: Systemd reload
+  systemd: daemon_reload=yes
+
+
+- name: Enable iptables timer
+  systemd:
+    name: start_iptables.timer
+    state: started
+    enabled: True
